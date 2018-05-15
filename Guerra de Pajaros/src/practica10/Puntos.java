@@ -24,7 +24,7 @@ public class Puntos {
 			e.printStackTrace();
 		}
 
-		String url = "coches.db";
+		String url = "puntos.db";
 
 		try {
 			connect = DriverManager.getConnection("jdbc:sqlite:" + url);
