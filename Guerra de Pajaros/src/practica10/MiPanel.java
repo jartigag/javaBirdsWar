@@ -1,5 +1,6 @@
 package practica10;
 
+import hilos.HiloDisparoAmigo;
 import hilos.HiloFondo;
 import hilos.HiloPajaroMio;
 import hilos.HiloPiedras;
@@ -28,8 +29,11 @@ public class MiPanel extends JPanel {
 	private Image pajaroVida;
 	
 	private PajaroMio pajaroMio;
-	private ArrayList<Piedra> piedras = new ArrayList<Piedra>();
-	private DisparoAmigo disparoAmigo1;
+	private ArrayList<Image> auxImgsPiedra = new ArrayList<Image>();
+	private ArrayList<Image> auxImgsDisparoAmigo1 = new ArrayList<Image>();
+	
+	private HiloPiedras hPiedras;
+	private HiloDisparoAmigo hDisparoAmigo;
 
 	public MiPanel() {
 		Toolkit t = Toolkit.getDefaultToolkit();
@@ -39,7 +43,6 @@ public class MiPanel extends JPanel {
 		fondo = t.getImage(getClass().getResource("fondo.jpg"));
 		pajaroVida = t.getImage(getClass().getResource("Mi pajaro/pajarovida.png"));
 		//Las piedras irán girando. Para ello utilizaremos las imágenes: piedra01.png hasta piedra08.png
-		ArrayList<Image> auxImgsPiedra = new ArrayList<Image>();
 		for (int i = 1; i <= 8;i++){
 			Image image = t.getImage(getClass().getResource("piedra/piedra0"+i+".png"));
 			auxImgsPiedra.add(image);
@@ -57,19 +60,16 @@ public class MiPanel extends JPanel {
 		}
 		
 		// Crear objetos
-		pajaroMio = new PajaroMio(0, 350, auxImgsPajaroMio);
-		piedras.add(new Piedra(1000, (int)Math.random()*700, auxImgsPiedra)); //Estas piedras aparecerán de forma aleatoria por la parte derecha de la pantalla.
-		//TODO 3: Con Math.random, CoordYPiedra = 0
-		disparoAmigo1 = new DisparoAmigo(100,100, auxImgsDisparoAmigo1);
+		pajaroMio = new PajaroMio(0, 350, auxImgsPajaroMio); //TODO: llevar a hPajaroMio?
 
-		// Crear hilos
+		// Crear/Iniciar hilos
 		HiloFondo hFondo = new HiloFondo(this);
 		hFondo.start();
-
-		HiloPiedras hPiedras = new HiloPiedras(this);
-		hPiedras.start();
 		HiloPajaroMio hPajaroMio = new HiloPajaroMio(this);
 		hPajaroMio.start();
+		hPiedras = new HiloPiedras(this,auxImgsPiedra); // Las piedras se crean en hPiedra
+		hPiedras.start();
+		hDisparoAmigo = new HiloDisparoAmigo(this,auxImgsDisparoAmigo1); // Los disparos se crean en hDisparoAmigo
 	}
 	
 	@Override
@@ -77,15 +77,20 @@ public class MiPanel extends JPanel {
 		super.paint(g);
 
 		g.drawImage(fondo, getCoordXFondo(), 0, this); // Siempre el mismo fondo
-		g.drawImage(fondo, getCoordXFondo()-fondo.getWidth(null), 0, this); //TODO 0: repetir la imagen bien
-				
+		g.drawImage(fondo, getCoordXFondo()-fondo.getWidth(null), 0, this);
+		if (getCoordXFondo()>1000)  {
+			setCoordXFondo(0);  //TODO: repetir la imagen sin salto brusco
+		}
+
 		if (pantalla==0) { // pantalla de inicio
 			inicio(g);
 		} else {
 			barraSuperior(g);
 			dibujarPiedras(g);
-			dibujarPajaroMio(g); 
-			dibujarDisparoAmigo(g);
+			dibujarPajaroMio(g);
+			if (gethDisparoAmigo().isAlive()) {
+				dibujarDisparoAmigo(g);
+			}
 		}
 	}
 
@@ -122,8 +127,7 @@ public class MiPanel extends JPanel {
 	}
 	
 	public void dibujarPiedras(Graphics g){
-		Piedra piedraActual = getPiedras().get(0);
-		System.out.println(piedraActual.getCoordYPiedra());
+		Piedra piedraActual = hPiedras.getPiedras().get(0);
 		g.drawImage(piedraActual.getImgsPiedra().get(piedraActual.getnImg()), piedraActual.getCoordXPiedra(), piedraActual.getCoordYPiedra(), this);
 	}
 	public void dibujarPajaroMio(Graphics g){
@@ -133,9 +137,12 @@ public class MiPanel extends JPanel {
 	}
 
 	private void dibujarDisparoAmigo(Graphics g) {
+		DisparoAmigo disparoAmigoActual = gethDisparoAmigo().getdisparosAmigo1().get(0);
 		if (puntuacion<500) {
-			g.drawImage(disparoAmigo1.getImgsDisparoAmigo().get(disparoAmigo1.getnImg()), disparoAmigo1.getCoordXDisparoAmigo(), disparoAmigo1.getCoordYDisparoAmigo(), this);	
-		}	
+			g.drawImage(pajaroVida, disparoAmigoActual.getCoordXDisparoAmigo(), disparoAmigoActual.getCoordYDisparoAmigo(), this);
+			//FIXME: disparoAmigoActual.getImgsDisparoAmigo().get(0) en lugar de pajaroVida
+		}
+		//TODO:Cuando llego a un total de 500 puntos, a partir de ese momento, tendré el disparo de tipo “disparoamigo2”
 	}
 
 	// GETTERS Y SETTERS
@@ -153,8 +160,12 @@ public class MiPanel extends JPanel {
 	public void setPajaroVida(Image pajaroVida){this.pajaroVida = pajaroVida;}
 	public PajaroMio getPajaroMio(){return pajaroMio;}
 	public void setPajaroMio(PajaroMio pajaroMio){this.pajaroMio = pajaroMio;}
-	public ArrayList<Piedra> getPiedras(){return piedras;}
-	public void setPiedras(ArrayList<Piedra> piedras){this.piedras = piedras;}
-	public DisparoAmigo getDisparoAmigo1(){return disparoAmigo1;}
-	public void setDisparoAmigo1(DisparoAmigo disparoAmigo1){this.disparoAmigo1 = disparoAmigo1;}
+	public ArrayList<Image> getAuxImgsPiedra(){return auxImgsPiedra;}
+	public void setAuxImgsPiedra(ArrayList<Image> auxImgsPiedra){this.auxImgsPiedra = auxImgsPiedra;}
+	public ArrayList<Image> getAuxImgsDisparoAmigo1(){return auxImgsDisparoAmigo1;}
+	public void setAuxImgsDisparoAmigo1(ArrayList<Image> auxImgsDisparoAmigo1){this.auxImgsDisparoAmigo1 = auxImgsDisparoAmigo1;}
+	public HiloDisparoAmigo gethDisparoAmigo(){return hDisparoAmigo;}
+	public void sethDisparoAmigo(HiloDisparoAmigo hDisparoAmigo){this.hDisparoAmigo = hDisparoAmigo;}
+	
+	
 }

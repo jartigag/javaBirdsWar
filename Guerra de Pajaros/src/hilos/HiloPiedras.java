@@ -1,22 +1,29 @@
 package hilos;
 
+import java.awt.Image;
+import java.util.ArrayList;
+
 import objetos.Piedra;
 import practica10.MiPanel;
 
 public class HiloPiedras extends Thread {
 	private MiPanel mp;
+	private ArrayList<Image> auxImgsPiedra;
+	private ArrayList<Piedra> piedras = new ArrayList<Piedra>();
 
-	public HiloPiedras(MiPanel miPanel) {
+	public HiloPiedras(MiPanel miPanel, ArrayList<Image> auxImgsPiedra) {
 		super();
 		this.mp = miPanel;
+		this.piedras.add(new Piedra(1000, (int)Math.random()*700, auxImgsPiedra)); //Estas piedras aparecerán de forma aleatoria por la parte derecha de la pantalla.;
+		//TODO: Con Math.random, CoordYPiedra = 0
 	}
 	
 	@Override
 	public void run(){
 		while(true){
 			super.run();
-			//TODO 1: lanzar varias piedras
-			Piedra piedraActual = mp.getPiedras().get(0);
+			//WIP: lanzar varias piedras
+			Piedra piedraActual = piedras.get(0);
 			piedraActual.setCoordXPiedra(piedraActual.getCoordXPiedra() - 2); //velocidad de la piedra
 
 			//Y las piedras irán girando.
@@ -27,7 +34,7 @@ public class HiloPiedras extends Thread {
 
 			mp.repaint();
 
-			//TODO 2: eliminar piedra cuando se salga de la pantalla
+			//WIP: eliminar piedra cuando se salga de la pantalla
 			
 			try {
 				//Thread.sleep(muneco.getVelocidad()); //TODO: eliminar try-catch?
@@ -35,7 +42,14 @@ public class HiloPiedras extends Thread {
 			} catch (InterruptedException e) {
 				System.out.println(e);
 			}
-		}	
+		}
+	}
+
+	public ArrayList<Piedra> getPiedras() {
+		return piedras;
+	}
+	public void setPiedras(ArrayList<Piedra> piedras) {
+		this.piedras = piedras;
 	}
 
 }
