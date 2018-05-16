@@ -1,5 +1,7 @@
 package practica10;
 
+import hilos.HiloDisparoAmigo;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -14,21 +16,29 @@ public class Teclado implements KeyListener {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		if (e.getKeyCode()==32) {
-			miPanel.pantalla = 1;
+			//Indicaremos al usuario un mensaje de que debe pulsar la barra espaciadora para comenzar a jugar.
+			if (miPanel.getPantalla()==0) {
+				miPanel.setPantalla(1);
+			} else {
+				//WIP: Y para disparar utilizaremos la barra espaciadora.
+				if (miPanel.getPantalla()==1) {
+					HiloDisparoAmigo hDisparoAmigo = new HiloDisparoAmigo(miPanel);
+					hDisparoAmigo.start();
+				}
+			}	
 			miPanel.repaint();
 		}
-		
 	}
 
 	@Override
 	public void keyReleased(KeyEvent arg0) {
-		// TODO Auto-generated method stub
+		// Auto-generated method stub
 		
 	}
 
 	@Override
 	public void keyTyped(KeyEvent arg0) {
-		// TODO Auto-generated method stub
+		// Auto-generated method stub
 		
 	}
 

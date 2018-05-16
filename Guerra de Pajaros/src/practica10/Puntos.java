@@ -20,7 +20,7 @@ public class Puntos {
 		try {
 			Class.forName("org.sqlite.JDBC");
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
+			// Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -35,7 +35,7 @@ public class Puntos {
 				System.out.println("Error de conexion");
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			// Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -44,7 +44,7 @@ public class Puntos {
 		try {
 			connect.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			// Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

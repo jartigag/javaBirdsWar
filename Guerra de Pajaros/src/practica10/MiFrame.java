@@ -7,7 +7,8 @@ public class MiFrame extends JFrame {
 	
 	MiPanel miPanel = new MiPanel();
 	Teclado miTeclado = new Teclado(miPanel);
-	Mouse miMouse = new Mouse(miPanel);
+	MouseClick miMouseClick = new MouseClick(miPanel);
+	MouseMover miMouseMover = new MouseMover(miPanel);
 
 	public MiFrame(){
 		setSize(1000,700);
@@ -15,6 +16,8 @@ public class MiFrame extends JFrame {
 		setResizable(false);
 		setLocationRelativeTo(null);
 		miPanel.addKeyListener(miTeclado);
+		miPanel.addMouseListener(miMouseClick);
+		miPanel.addMouseMotionListener(miMouseMover);
 		miPanel.setFocusable(true);
 		add(miPanel);
 	}
