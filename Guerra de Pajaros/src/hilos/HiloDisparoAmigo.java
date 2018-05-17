@@ -13,38 +13,47 @@ public class HiloDisparoAmigo extends Thread {
 	private ArrayList<DisparoAmigo> disparosAmigo1 = new ArrayList<DisparoAmigo>();
 
 	public HiloDisparoAmigo(MiPanel miPanel, ArrayList<Image> auxImgsDisparoAmigo1) {
+		super();
 		this.mp = miPanel;
-		PajaroMio pj = miPanel.getPajaroMio();
-		this.disparosAmigo1.add(new DisparoAmigo(pj.getCoordXPajaroMio()+pj.getImgsPajaroMio().get(0).getWidth(null),
-				pj.getCoordYPajaroMio()+pj.getImgsPajaroMio().get(0).getHeight(null)/2,
-				auxImgsDisparoAmigo1));
-				// se ha elegido disparar desde coordY+height/2 para poder disparar a cualquier altura, incluidos los bordes de pantalla
 	}
 
 	@Override
 	public void run(){
-		DisparoAmigo d = disparosAmigo1.get(disparosAmigo1.size()-1);
+		int t = 50; //velocidad de refresco (para avance y giro) del disparo 
 		while(true){
 			super.run();
-			d.setCoordXDisparoAmigo(d.getCoordXDisparoAmigo() + 5); //velocidad del disparo
-			d.setnImg(d.getnImg()+1);
-			if (d.getnImg() == 4){
-				d.setnImg(0);
+			// mover disparos:
+			for (int i=0; i<disparosAmigo1.size(); i++) {
+				DisparoAmigo disparoActual = disparosAmigo1.get(i);
+				disparoActual.setCoordXDisparoAmigo(disparoActual.getCoordXDisparoAmigo() + 25); //velocidad del disparo
+				disparoActual.setnImg(disparoActual.getnImg()+1);
+				if (disparoActual.getnImg() == 4){
+					disparoActual.setnImg(0);
+				}
 			}
+			// borrar disparos:
+			for (int i=0; i<disparosAmigo1.size(); i++) {
+				DisparoAmigo disparoActual = disparosAmigo1.get(i);
+				if (disparoActual.getCoordXDisparoAmigo()>1000) {//si posición del disparo fuera de la pantalla
+					disparosAmigo1.remove(i);
+				}
+			}
+System.out.println("disparos: "+disparosAmigo1.size());
 			mp.repaint();
 			
 			try {
-				Thread.sleep(100); //velocidad de refresco del disparo
+				Thread.sleep(t); 
 			} catch (InterruptedException e) {
 				System.out.println(e);
 			}
 		}	
 	}
 
-	public ArrayList<DisparoAmigo> getdisparosAmigo1() {
+	public ArrayList<DisparoAmigo> getDisparosAmigo1() {
 		return disparosAmigo1;
 	}
-	public void setdisparosAmigo1(ArrayList<DisparoAmigo> disparosAmigo1) {
+
+	public void setDisparosAmigo1(ArrayList<DisparoAmigo> disparosAmigo1) {
 		this.disparosAmigo1 = disparosAmigo1;
 	}
 

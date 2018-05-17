@@ -9,7 +9,6 @@ public class Piedra {
 	private int coordYPiedra;
 	private ArrayList <Image> imgsPiedra;
 	private int nImg;
-	//TODO: boolean piedraActiva;
 
 	public Piedra(int coordXPiedra, int coordYPiedra, ArrayList<Image> imgsPiedra) {
 		super();

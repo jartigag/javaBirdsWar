@@ -47,17 +47,16 @@ public class MiPanel extends JPanel {
 			Image image = t.getImage(getClass().getResource("piedra/piedra0"+i+".png"));
 			auxImgsPiedra.add(image);
 		}
+		//imágenes de disparoamigo
+		for (int i = 1; i <= 4;i++){
+			Image image = t.getImage(getClass().getResource("disparo amigo/disparoamigo1-0"+i+".png"));
+			auxImgsDisparoAmigo1.add(image);
+		}
 		//Nuestro pájaro estará moviendo las alas y para ello vamos a utilizar las imágenes: pajaromio01.png hasta pajaromio08.png
 		ArrayList<Image> auxImgsPajaroMio = new ArrayList<Image>();
 		for (int i = 1; i <= 8;i++){
 			Image image = t.getImage(getClass().getResource("Mi pajaro/pajaromio0"+i+".png"));
 			auxImgsPajaroMio.add(image);
-		}
-		ArrayList<Image> auxImgsDisparoAmigo1 = new ArrayList<Image>();
-		for (int i = 1; i <= 4;i++){
-			Image image = t.getImage(getClass().getResource("disparo amigo/disparoamigo1-0"+i+".png"));
-			auxImgsDisparoAmigo1.add(image);
-System.out.println(image.getWidth(null)); //FIXME: devuelve width=-1, es decir, no está cogiendo la imagen
 		}
 		
 		// Crear objetos
@@ -69,7 +68,6 @@ System.out.println(image.getWidth(null)); //FIXME: devuelve width=-1, es decir, 
 		HiloPajaroMio hPajaroMio = new HiloPajaroMio(this);
 		hPajaroMio.start();
 		hPiedras = new HiloPiedras(this,auxImgsPiedra); // Las piedras se crean en hPiedra
-		hPiedras.start();
 		hDisparoAmigo = new HiloDisparoAmigo(this,auxImgsDisparoAmigo1); // Los disparos se crean en hDisparoAmigo
 	}
 	
@@ -120,7 +118,8 @@ System.out.println(image.getWidth(null)); //FIXME: devuelve width=-1, es decir, 
 		g.drawImage(pajaroVida, 180, 10, this);
 
 		// Nivel de vida
-		//En el centro de la barra superior vamos a colocar una franja de color para ir indicando el estado de la vida que tenemos actualmente.
+		//En el centro de la barra superior vamos a colocar una franja de color
+		//para ir indicando el estado de la vida que tenemos actualmente.
 		g.setColor(Color.RED);
 		g.fillRect(350, 20, vida100, 10); //La franja roja siempre será de 100%
 		g.setColor(Color.BLUE);
@@ -128,21 +127,28 @@ System.out.println(image.getWidth(null)); //FIXME: devuelve width=-1, es decir, 
 	}
 	
 	public void dibujarPiedras(Graphics g){
-		Piedra piedraActual = hPiedras.getPiedras().get(0);
-		g.drawImage(piedraActual.getImgsPiedra().get(piedraActual.getnImg()), piedraActual.getCoordXPiedra(), piedraActual.getCoordYPiedra(), this);
+		for (int i=0; i<hPiedras.getPiedras().size(); i++) {
+			Piedra piedraActual = hPiedras.getPiedras().get(i);
+			g.drawImage(piedraActual.getImgsPiedra().get(piedraActual.getnImg()),
+					piedraActual.getCoordXPiedra(), piedraActual.getCoordYPiedra(), this);
+		}
 	}
 	public void dibujarPajaroMio(Graphics g){
 		//Nuestro pájaro deberá moverse por la pantalla evitando dichas piedras.
 		//Y en el caso de que choque con alguna de ellas, en ese caso explotará.
-		g.drawImage(pajaroMio.getImgsPajaroMio().get(pajaroMio.getnImg()), pajaroMio.getCoordXPajaroMio(), pajaroMio.getCoordYPajaroMio(), this);
+		g.drawImage(pajaroMio.getImgsPajaroMio().get(pajaroMio.getnImg()),
+				pajaroMio.getCoordXPajaroMio(), pajaroMio.getCoordYPajaroMio(), this);
 	}
 
 	private void dibujarDisparoAmigo(Graphics g) {
-		DisparoAmigo disparoAmigoActual = gethDisparoAmigo().getdisparosAmigo1().get(0);
-		if (puntuacion<500) {
-			g.drawImage(disparoAmigoActual.getImgsDisparoAmigo().get(0), disparoAmigoActual.getCoordXDisparoAmigo(), disparoAmigoActual.getCoordYDisparoAmigo(), this);
+		for (int i=0; i<hDisparoAmigo.getDisparosAmigo1().size(); i++) {
+			DisparoAmigo disparoAmigoActual = hDisparoAmigo.getDisparosAmigo1().get(i);
+			if (puntuacion<500) {
+				g.drawImage(disparoAmigoActual.getImgsDisparoAmigo().get(disparoAmigoActual.getnImg()),
+						disparoAmigoActual.getCoordXDisparoAmigo(), disparoAmigoActual.getCoordYDisparoAmigo(), this);
+			}
+			//TODO:Cuando llego a un total de 500 puntos, a partir de ese momento, tendré el disparo de tipo “disparoamigo2”
 		}
-		//TODO:Cuando llego a un total de 500 puntos, a partir de ese momento, tendré el disparo de tipo “disparoamigo2”
 	}
 
 	// GETTERS Y SETTERS
@@ -164,6 +170,8 @@ System.out.println(image.getWidth(null)); //FIXME: devuelve width=-1, es decir, 
 	public void setAuxImgsPiedra(ArrayList<Image> auxImgsPiedra){this.auxImgsPiedra = auxImgsPiedra;}
 	public ArrayList<Image> getAuxImgsDisparoAmigo1(){return auxImgsDisparoAmigo1;}
 	public void setAuxImgsDisparoAmigo1(ArrayList<Image> auxImgsDisparoAmigo1){this.auxImgsDisparoAmigo1 = auxImgsDisparoAmigo1;}
+	public HiloPiedras gethPiedras(){return hPiedras;}
+	public void sethPiedras(HiloPiedras hPiedras){this.hPiedras = hPiedras;}
 	public HiloDisparoAmigo gethDisparoAmigo(){return hDisparoAmigo;}
 	public void sethDisparoAmigo(HiloDisparoAmigo hDisparoAmigo){this.hDisparoAmigo = hDisparoAmigo;}
 	
