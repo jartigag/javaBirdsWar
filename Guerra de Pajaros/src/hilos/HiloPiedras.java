@@ -44,6 +44,7 @@ public class HiloPiedras extends Thread {
 			for (int i=0; i<piedras.size(); i++) {
 				Piedra piedraActual = piedras.get(i);
 				if (piedraActual.getCoordXPiedra()<0) {//si posición de piedra fuera de la pantalla
+					mp.setPuntuacion(mp.getPuntuacion()+10);
 					piedras.remove(i);
 				}
 			}

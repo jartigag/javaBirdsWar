@@ -17,7 +17,7 @@ public class HiloPajaroMio extends Thread {
 			super.run();
 			//Nuestro pájaro estará moviendo las alas
 			p.setnImg(p.getnImg()+1);
-			if (p.getnImg() == 8){
+			if (p.getnImg() == p.getImgsPajaroMio().size()){
 				p.setnImg(0);
 			}
 			mp.repaint();

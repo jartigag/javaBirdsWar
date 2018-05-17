@@ -15,7 +15,6 @@ public class HiloFondo extends Thread {
 			int t = 10; //velocidad de refresco del fondo
 			super.run();
 			mp.setCoordXFondo(mp.getCoordXFondo() - 2); //velocidad del fondo
-			mp.setPuntuacion(mp.getPuntuacion()+1);
 			mp.repaint();
 			
 			try {

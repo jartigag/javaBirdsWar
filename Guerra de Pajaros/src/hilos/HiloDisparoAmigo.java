@@ -10,9 +10,10 @@ import practica10.MiPanel;
 public class HiloDisparoAmigo extends Thread {
 	private MiPanel mp;
 	private ArrayList<Image> auxImgsDisparoAmigo1;
-	private ArrayList<DisparoAmigo> disparosAmigo1 = new ArrayList<DisparoAmigo>();
+	private ArrayList<Image> auxImgsDisparoAmigo2;
+	private ArrayList<DisparoAmigo> disparosAmigo = new ArrayList<DisparoAmigo>();
 
-	public HiloDisparoAmigo(MiPanel miPanel, ArrayList<Image> auxImgsDisparoAmigo1) {
+	public HiloDisparoAmigo(MiPanel miPanel) {
 		super();
 		this.mp = miPanel;
 	}
@@ -23,8 +24,8 @@ public class HiloDisparoAmigo extends Thread {
 		while(true){
 			super.run();
 			// mover disparos:
-			for (int i=0; i<disparosAmigo1.size(); i++) {
-				DisparoAmigo disparoActual = disparosAmigo1.get(i);
+			for (int i=0; i<disparosAmigo.size(); i++) {
+				DisparoAmigo disparoActual = disparosAmigo.get(i);
 				disparoActual.setCoordXDisparoAmigo(disparoActual.getCoordXDisparoAmigo() + 25); //velocidad del disparo
 				disparoActual.setnImg(disparoActual.getnImg()+1);
 				if (disparoActual.getnImg() == 4){
@@ -32,10 +33,10 @@ public class HiloDisparoAmigo extends Thread {
 				}
 			}
 			// borrar disparos:
-			for (int i=0; i<disparosAmigo1.size(); i++) {
-				DisparoAmigo disparoActual = disparosAmigo1.get(i);
+			for (int i=0; i<disparosAmigo.size(); i++) {
+				DisparoAmigo disparoActual = disparosAmigo.get(i);
 				if (disparoActual.getCoordXDisparoAmigo()>1000) {//si posición del disparo fuera de la pantalla
-					disparosAmigo1.remove(i);
+					disparosAmigo.remove(i);
 				}
 			}
 
@@ -49,12 +50,12 @@ public class HiloDisparoAmigo extends Thread {
 		}	
 	}
 
-	public ArrayList<DisparoAmigo> getDisparosAmigo1() {
-		return disparosAmigo1;
+	public ArrayList<DisparoAmigo> getDisparosAmigo() {
+		return disparosAmigo;
 	}
 
-	public void setDisparosAmigo1(ArrayList<DisparoAmigo> disparosAmigo1) {
-		this.disparosAmigo1 = disparosAmigo1;
+	public void setDisparosAmigo1(ArrayList<DisparoAmigo> disparosAmigo) {
+		this.disparosAmigo = disparosAmigo;
 	}
 
 }
