@@ -37,7 +37,6 @@ public class HiloPiedras extends Thread {
 			//WIP: eliminar piedra cuando se salga de la pantalla
 			
 			try {
-				//Thread.sleep(muneco.getVelocidad()); //TODO: eliminar try-catch?
 				Thread.sleep(50); //velocidad de refresco (para avance y giro) de la piedra
 			} catch (InterruptedException e) {
 				System.out.println(e);

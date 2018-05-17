@@ -13,7 +13,7 @@ public class HiloFondo extends Thread {
 	public void run(){
 		while(true){
 			super.run();
-			mp.setCoordXFondo(mp.getCoordXFondo() + 2); //velocidad del fondo
+			mp.setCoordXFondo(mp.getCoordXFondo() - 2); //velocidad del fondo
 			mp.repaint();
 			
 			try {

@@ -16,7 +16,8 @@ public class HiloDisparoAmigo extends Thread {
 		this.mp = miPanel;
 		PajaroMio pj = miPanel.getPajaroMio();
 		this.disparosAmigo1.add(new DisparoAmigo(pj.getCoordXPajaroMio()+pj.getImgsPajaroMio().get(0).getWidth(null),
-				pj.getCoordYPajaroMio()+pj.getImgsPajaroMio().get(0).getHeight(null)/2, auxImgsDisparoAmigo1));
+				pj.getCoordYPajaroMio()+pj.getImgsPajaroMio().get(0).getHeight(null)/2,
+				auxImgsDisparoAmigo1));
 				// se ha elegido disparar desde coordY+height/2 para poder disparar a cualquier altura, incluidos los bordes de pantalla
 	}
 

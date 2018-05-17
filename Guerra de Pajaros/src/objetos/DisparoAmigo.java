@@ -10,11 +10,11 @@ public class DisparoAmigo {
 	private ArrayList <Image> imgsDisparoAmigo;
 	private int nImg;
 
-	public DisparoAmigo(int coordXDisparoAmigo, int coordYDisparoAmigo,	ArrayList <Image> imgDisparoAmigo) {
+	public DisparoAmigo(int coordXDisparoAmigo, int coordYDisparoAmigo,	ArrayList <Image> imgsDisparoAmigo) {
 		super();
 		this.coordXDisparoAmigo = coordXDisparoAmigo;
 		this.coordYDisparoAmigo = coordYDisparoAmigo;
-		this.imgsDisparoAmigo = imgDisparoAmigo;
+		this.imgsDisparoAmigo = imgsDisparoAmigo;
 		this.nImg = 0;
 	}
 

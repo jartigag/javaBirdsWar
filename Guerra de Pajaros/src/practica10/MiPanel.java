@@ -57,6 +57,7 @@ public class MiPanel extends JPanel {
 		for (int i = 1; i <= 4;i++){
 			Image image = t.getImage(getClass().getResource("disparo amigo/disparoamigo1-0"+i+".png"));
 			auxImgsDisparoAmigo1.add(image);
+System.out.println(image.getWidth(null)); //FIXME: devuelve width=-1, es decir, no está cogiendo la imagen
 		}
 		
 		// Crear objetos
@@ -77,9 +78,9 @@ public class MiPanel extends JPanel {
 		super.paint(g);
 
 		g.drawImage(fondo, getCoordXFondo(), 0, this); // Siempre el mismo fondo
-		g.drawImage(fondo, getCoordXFondo()-fondo.getWidth(null), 0, this);
-		if (getCoordXFondo()>1000)  {
-			setCoordXFondo(0);  //TODO: repetir la imagen sin salto brusco
+		g.drawImage(fondo, getCoordXFondo()+fondo.getWidth(null), 0, this);
+		if (getCoordXFondo()<-fondo.getWidth(null))  {
+			setCoordXFondo(0);
 		}
 
 		if (pantalla==0) { // pantalla de inicio
@@ -139,8 +140,7 @@ public class MiPanel extends JPanel {
 	private void dibujarDisparoAmigo(Graphics g) {
 		DisparoAmigo disparoAmigoActual = gethDisparoAmigo().getdisparosAmigo1().get(0);
 		if (puntuacion<500) {
-			g.drawImage(pajaroVida, disparoAmigoActual.getCoordXDisparoAmigo(), disparoAmigoActual.getCoordYDisparoAmigo(), this);
-			//FIXME: disparoAmigoActual.getImgsDisparoAmigo().get(0) en lugar de pajaroVida
+			g.drawImage(disparoAmigoActual.getImgsDisparoAmigo().get(0), disparoAmigoActual.getCoordXDisparoAmigo(), disparoAmigoActual.getCoordYDisparoAmigo(), this);
 		}
 		//TODO:Cuando llego a un total de 500 puntos, a partir de ese momento, tendré el disparo de tipo “disparoamigo2”
 	}
