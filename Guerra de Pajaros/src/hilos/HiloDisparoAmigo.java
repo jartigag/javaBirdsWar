@@ -38,9 +38,9 @@ public class HiloDisparoAmigo extends Thread {
 					disparosAmigo1.remove(i);
 				}
 			}
-System.out.println("disparos: "+disparosAmigo1.size());
+
 			mp.repaint();
-			
+
 			try {
 				Thread.sleep(t); 
 			} catch (InterruptedException e) {

@@ -47,9 +47,9 @@ public class HiloPiedras extends Thread {
 					piedras.remove(i);
 				}
 			}
-System.out.println("piedras: "+piedras.size());
+
 			mp.repaint();
-			
+
 			try {
 				Thread.sleep(t);
 			} catch (InterruptedException e) {
