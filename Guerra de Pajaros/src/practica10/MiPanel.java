@@ -33,9 +33,7 @@ public class MiPanel extends JPanel {
 	
 	private PajaroMio pajaroMio;
 	private ArrayList<Image> auxImgsPajaroMio = new ArrayList<Image>();
-	private ArrayList<Image> auxImgsEnemigo1 = new ArrayList<Image>();
-	private ArrayList<Image> auxImgsEnemigo2 = new ArrayList<Image>();
-	private ArrayList<Image> auxImgsEnemigo3 = new ArrayList<Image>();
+	private ArrayList<ArrayList> auxImgsEnemigo = new ArrayList<ArrayList>();
 	private ArrayList<Image> auxImgsPiedra = new ArrayList<Image>();
 	private ArrayList<Image> auxImgsDisparoAmigo1 = new ArrayList<Image>();
 	private ArrayList<Image> auxImgsDisparoAmigo2 = new ArrayList<Image>();
@@ -54,47 +52,41 @@ public class MiPanel extends JPanel {
 		// Cargar imágenes
 		fondo = t.getImage(getClass().getResource("fondo.jpg"));
 		pajaroVida = t.getImage(getClass().getResource("Mi pajaro/pajarovida.png"));
-		//Las piedras irán girando. Para ello utilizaremos las imágenes: piedra01.png hasta piedra08.png
-		for (int i=1; i<=8; i++){
-			Image image = t.getImage(getClass().getResource("piedra/piedra0"+i+".png"));
-			auxImgsPiedra.add(image);
-		}
-		//imágenes de disparoamigo1
-		for (int i=1; i<=4; i++){
-			Image image = t.getImage(getClass().getResource("disparo amigo/disparoamigo1-0"+i+".png"));
-			auxImgsDisparoAmigo1.add(image);
-		}
-		//imágenes de explosion
-		for (int i=1; i<=7; i++){
-			Image image = t.getImage(getClass().getResource("explosion/explosion-0"+i+".png"));
-			auxImgsExplosion.add(image);
-		}
-		//imágenes de disparoamigo2
-		for (int i=1; i<=4; i++){
-			Image image = t.getImage(getClass().getResource("disparo amigo/disparoamigo2-0"+i+".png"));
-			auxImgsDisparoAmigo2.add(image);
-		}
 		//Nuestro pájaro estará moviendo las alas y para ello vamos a utilizar las imágenes: pajaromio01.png hasta pajaromio08.png
 		auxImgsPajaroMio = new ArrayList<Image>();
 		for (int i=1; i<=8; i++){
 			Image image = t.getImage(getClass().getResource("Mi pajaro/pajaromio0"+i+".png"));
 			auxImgsPajaroMio.add(image);
 		}
-		//TODO: mejorar FOR imgsEnemigo
-		//imágenes de enemigo1
-		for (int i=1; i<=9; i++){
-			Image image = t.getImage(getClass().getResource("enemigos/enemigo1-0"+i+".png"));
-			auxImgsEnemigo1.add(image);
+		//imágenes de explosion
+		for (int i=1; i<=7; i++){
+			Image image = t.getImage(getClass().getResource("explosion/explosion-0"+i+".png"));
+			auxImgsExplosion.add(image);
 		}
-		//imágenes de enemigo2
-		for (int i=1; i<=9; i++){
-			Image image = t.getImage(getClass().getResource("enemigos/enemigo2-0"+i+".png"));
-			auxImgsEnemigo2.add(image);
+		//Las piedras irán girando. Para ello utilizaremos las imágenes: piedra01.png hasta piedra08.png
+		for (int i=1; i<=8; i++){
+			Image image = t.getImage(getClass().getResource("piedra/piedra0"+i+".png"));
+			auxImgsPiedra.add(image);
 		}
-		//imágenes de enemigo3
-		for (int i=1; i<=9; i++){
-			Image image = t.getImage(getClass().getResource("enemigos/enemigo3-0"+i+".png"));
-			auxImgsEnemigo3.add(image);
+		//imágenes de pajaroEnemigo
+		for (int i=1; i<=3; i++) {
+			ArrayList<Image> auxImgsEnemigoTipo = new ArrayList<Image>();
+			//imágenes de enemigo[1,2,3]
+			for (int j=1; j<=9; j++){
+				Image image = t.getImage(getClass().getResource("enemigos/enemigo"+i+"-0"+j+".png"));
+				auxImgsEnemigoTipo.add(image);
+			}
+			auxImgsEnemigo.add(auxImgsEnemigoTipo);
+		}
+		//imágenes de disparoamigo1
+		for (int i=1; i<=4; i++){
+			Image image = t.getImage(getClass().getResource("disparo amigo/disparoamigo1-0"+i+".png"));
+			auxImgsDisparoAmigo1.add(image);
+		}
+		//imágenes de disparoamigo2
+		for (int i=1; i<=4; i++){
+			Image image = t.getImage(getClass().getResource("disparo amigo/disparoamigo2-0"+i+".png"));
+			auxImgsDisparoAmigo2.add(image);
 		}
 		
 		// Crear objetos
@@ -185,7 +177,7 @@ public class MiPanel extends JPanel {
 
 			// definición de colisión:
 			boolean colision = (inixPj<finxPd && inixPd<finxPj && iniyPj<finyPd && iniyPd<finyPj);
-//System.out.println(colision);
+//System.out.println("colis. piedra: "+colision);
 			//En el caso de que choque con alguna de las piedras, explotará
 			if (colision) {
 				if (vidas==0) {
@@ -194,7 +186,7 @@ public class MiPanel extends JPanel {
 					hPiedras.stop();
 					hDisparoAmigo.stop();*/ //TODO: hilo.stop() no funciona
 				}
-				pajaroMio.setImgsPajaroMio(auxImgsExplosion); //el pájaro explota
+				pajaroMio.setImgsPajaroMio(auxImgsExplosion); //pajaroMio explota
 				// borrar piedras:
 				for (int j=0; i<hPiedras.getPiedras().size(); j++) {
 					hPiedras.getPiedras().remove(j);
@@ -207,8 +199,37 @@ public class MiPanel extends JPanel {
 	}
 
 	private void dibujarPajaroEnemigo(Graphics g) {
+		
+		// dimensiones del cuadro de pajaroMio:
+		int inixPj = pajaroMio.getCoordXPajaroMio(); int finxPj = inixPj + pajaroMio.getImgsPajaroMio().get(0).getWidth(null);
+		int iniyPj = pajaroMio.getCoordYPajaroMio(); int finyPj = iniyPj + pajaroMio.getImgsPajaroMio().get(0).getHeight(null);
+		
 		for (int i=0; i<hPajaroEnemigo.getPajarosEnemigos().size(); i++) {
 			PajaroEnemigo pajaroEnemigoActual = hPajaroEnemigo.getPajarosEnemigos().get(i);
+
+			// dimensiones del cuadro de pajaroEnemigo:
+			int inixPe = pajaroEnemigoActual.getCoordXPajaroEnemigo(); int finxPe = inixPe + pajaroEnemigoActual.getImgsPajaroEnemigo().get(0).getWidth(null);
+			//(no uso auxImgs como hacía en auxImgsPiedra porque pajaroEnemigo es de tamaño variable)
+			int iniyPe = pajaroEnemigoActual.getCoordYPajaroEnemigo(); int finyPe = iniyPe + pajaroEnemigoActual.getImgsPajaroEnemigo().get(0).getHeight(null);
+
+			// definición de colisión:
+			boolean colision = (inixPj<finxPe && inixPe<finxPj && iniyPj<finyPe && iniyPe<finyPj);
+//System.out.println("colis. pajaroEnemigo: "+colision);
+			if (colision) {
+				if (vidas==0) {
+					pantalla=2;
+					/*hPajaroMio.stop();;
+					hPiedras.stop();
+					hDisparoAmigo.stop();*/ //TODO: hilo.stop() no funciona
+				}
+				pajaroMio.setImgsPajaroMio(auxImgsExplosion); //pajaroMio explota
+				// borrar pajarosEnemigos:
+				for (int j=0; i<hPajaroEnemigo.getPajarosEnemigos().size(); j++) {
+					hPajaroEnemigo.getPajarosEnemigos().remove(j);
+				}
+				return;
+			}
+
 			g.drawImage(pajaroEnemigoActual.getImgsPajaroEnemigo().get(pajaroEnemigoActual.getnImg()),
 					pajaroEnemigoActual.getCoordXPajaroEnemigo(), pajaroEnemigoActual.getCoordYPajaroEnemigo(), this);
 		}	
@@ -253,8 +274,8 @@ public class MiPanel extends JPanel {
 	public void setPajaroMio(PajaroMio pajaroMio){this.pajaroMio = pajaroMio;}
 	public ArrayList<Image> getAuxImgsPajaroMio(){return auxImgsPajaroMio;}
 	public void setAuxImgsPajaroMio(ArrayList<Image> auxImgsPajaroMio){this.auxImgsPajaroMio = auxImgsPajaroMio;}
-	public ArrayList<Image> getAuxImgsEnemigo1(){return auxImgsEnemigo1;}
-	public void setAuxImgsEnemigo1(ArrayList<Image> auxImgsEnemigo1){this.auxImgsEnemigo1 = auxImgsEnemigo1;}
+	public ArrayList<ArrayList> getAuxImgsEnemigo(){return auxImgsEnemigo;}
+	public void setAuxImgsEnemigo(ArrayList<ArrayList> auxImgsEnemigo){this.auxImgsEnemigo = auxImgsEnemigo;}
 	public ArrayList<Image> getAuxImgsPiedra(){return auxImgsPiedra;}
 	public void setAuxImgsPiedra(ArrayList<Image> auxImgsPiedra){this.auxImgsPiedra = auxImgsPiedra;}
 	public ArrayList<Image> getAuxImgsDisparoAmigo1(){return auxImgsDisparoAmigo1;}

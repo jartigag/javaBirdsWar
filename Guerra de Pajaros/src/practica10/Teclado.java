@@ -43,10 +43,9 @@ public class Teclado implements KeyListener {
 				miPanel.gethPajaroMio().start();
 				miPanel.sethPiedras(new HiloPiedras(miPanel)); // Las piedras se crean en hPiedra
 				miPanel.gethPiedras().start();
-				//WIP: nos irán saliendo pájaros enemigos
+				//Nos irán saliendo pájaros enemigos
 				miPanel.sethPajaroEnemigo(new HiloPajaroEnemigo(miPanel));
 				miPanel.gethPajaroEnemigo().start();
-				//WIP:  Además, también de forma aleatoria saldrán pájaros diferentes, de los 3 tipos de pájaros enemigos que tenemos
 				miPanel.sethDisparoAmigo(new HiloDisparoAmigo(miPanel)); // Los disparos se crean en hDisparoAmigo
 				miPanel.setPantalla(1);
 			} else {
