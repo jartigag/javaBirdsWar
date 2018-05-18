@@ -23,7 +23,7 @@ public class HiloDisparoAmigo extends Thread {
 				DisparoAmigo disparoActual = disparosAmigo.get(i);
 				disparoActual.setCoordXDisparoAmigo(disparoActual.getCoordXDisparoAmigo() + 25); //velocidad del disparo
 				disparoActual.setnImg(disparoActual.getnImg()+1);
-				if (disparoActual.getnImg() == 4){
+				if (disparoActual.getnImg() == disparosAmigo.get(i).getImgsDisparoAmigo().size()){
 					disparoActual.setnImg(0);
 				}
 			}

@@ -19,6 +19,7 @@ import hilos.HiloPajaroMio;
 import hilos.HiloPiedras;
 
 import objetos.DisparoAmigo;
+import objetos.DisparoEnemigo;
 import objetos.PajaroEnemigo;
 import objetos.PajaroMio;
 import objetos.Piedra;
@@ -40,6 +41,7 @@ public class MiPanel extends JPanel {
 	private ArrayList<Image> auxImgsPiedra = new ArrayList<Image>();
 	private ArrayList<Image> auxImgsDisparoAmigo1 = new ArrayList<Image>();
 	private ArrayList<Image> auxImgsDisparoAmigo2 = new ArrayList<Image>();
+	private ArrayList<ArrayList> auxImgsDisparoEnemigo = new ArrayList<ArrayList>();
 	private ArrayList<Image> auxImgsExplosion = new ArrayList<Image>();
 
 	private HiloFondo hFondo;
@@ -96,6 +98,16 @@ public class MiPanel extends JPanel {
 			Image image = t.getImage(getClass().getResource("disparo amigo/disparoamigo2-0"+i+".png"));
 			auxImgsDisparoAmigo2.add(image);
 		}
+		//imágenes de disparoEnemigo
+		for (int i=1; i<=3; i++) {
+			ArrayList<Image> auxImgsDisparoEnemigoTipo = new ArrayList<Image>();
+			//imágenes de disparoenemigo[1,2,3]
+			for (int j=1; j<=4; j++){
+				Image image = t.getImage(getClass().getResource("disparo enemigo/disparoenemigo"+i+"-0"+j+".png"));
+				auxImgsDisparoEnemigoTipo.add(image);
+			}
+			auxImgsDisparoEnemigo.add(auxImgsDisparoEnemigoTipo);
+		}
 
 		// Iniciar hilos
 		hFondo = new HiloFondo(this);
@@ -122,9 +134,10 @@ public class MiPanel extends JPanel {
 			dibujarPajaroEnemigo(g);
 			if (gethDisparoAmigo().isAlive()) {
 				dibujarDisparoAmigo(g);
-			}if (gethDisparoEnemigo().isAlive()) {
-				//TODO: dibujarDisparoEnemigo(g);
 			}
+			//if (gethDisparoEnemigo().isAlive()) {
+				dibujarDisparoEnemigo(g);
+			//}
 			
 		}
 		if (pantalla==2) { // pantalla de game over
@@ -256,6 +269,14 @@ public class MiPanel extends JPanel {
 		}
 	}
 
+	private void dibujarDisparoEnemigo(Graphics g) {
+		for (int i=0; i<hDisparoEnemigo.getDisparosEnemigo().size(); i++) {
+			DisparoEnemigo disparoEnemigoActual = hDisparoEnemigo.getDisparosEnemigo().get(i);
+			g.drawImage(disparoEnemigoActual.getImgsDisparoEnemigo().get(disparoEnemigoActual.getnImg()),
+					disparoEnemigoActual.getCoordXDisparoEnemigo(), disparoEnemigoActual.getCoordYDisparoEnemigo(), this);
+		}
+	}
+
 	private void gameover(Graphics g) {
 		Font fuente = new Font("Arial", 1, 30);
 		g.setFont(fuente);
@@ -311,6 +332,8 @@ public class MiPanel extends JPanel {
 	public void setAuxImgsDisparoAmigo1(ArrayList<Image> auxImgsDisparoAmigo1){this.auxImgsDisparoAmigo1 = auxImgsDisparoAmigo1;}
 	public ArrayList<Image> getAuxImgsDisparoAmigo2(){return auxImgsDisparoAmigo2;}
 	public void setAuxImgsDisparoAmigo2(ArrayList<Image> auxImgsDisparoAmigo2){this.auxImgsDisparoAmigo2 = auxImgsDisparoAmigo2;}
+	public ArrayList<ArrayList> getAuxImgsDisparoEnemigo(){return auxImgsDisparoEnemigo;}
+	public void setAuxImgsDisparoEnemigo(ArrayList<ArrayList> auxImgsDisparoEnemigo){this.auxImgsDisparoEnemigo = auxImgsDisparoEnemigo;}
 	public HiloFondo gethFondo(){return hFondo;}
 	public void sethFondo(HiloFondo hFondo){this.hFondo = hFondo;}
 	public HiloPajaroMio gethPajaroMio(){return hPajaroMio;}

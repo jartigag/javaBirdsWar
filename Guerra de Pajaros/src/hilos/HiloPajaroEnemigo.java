@@ -27,7 +27,10 @@ public class HiloPajaroEnemigo extends Thread {
 				ArrayList<ArrayList> tipoEnemigo = mp.getAuxImgsEnemigo();
 				PajaroEnemigo nuevoPajaroEnemigo = new PajaroEnemigo(1000, (int)(Math.random()*700), tipoEnemigo.get(rndTipo));
 				this.pajarosEnemigos.add(nuevoPajaroEnemigo);//Desde la parte de la derecha además de las piedras nos irán saliendo pájaros enemigos.
-				//Esto saldrán de forma aleatoria en diferentes alturas
+				//Estos saldrán de forma aleatoria en diferentes alturas
+				if (mp.gethDisparoEnemigo().isAlive()==false) { // Si no se ha iniciado hDisparoEnemigo
+					mp.gethDisparoEnemigo().start();
+				}
 				temporizadorPajaroEnemigo= 0;
 			}
 			// mover pajarosEnemigos:
