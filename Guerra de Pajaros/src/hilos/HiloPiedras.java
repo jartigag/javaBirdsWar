@@ -12,7 +12,7 @@ public class HiloPiedras extends Thread {
 	private ArrayList<Image> auxImgsPiedra;
 	private ArrayList<Piedra> piedras = new ArrayList<Piedra>();
 
-	public HiloPiedras(MiPanel miPanel, ArrayList<Image> auxImgsPiedra) {
+	public HiloPiedras(MiPanel miPanel) {
 		super();
 		this.mp = miPanel;
 	}
@@ -24,7 +24,7 @@ public class HiloPiedras extends Thread {
 		while(true){
 			super.run();
 			temporizadorPiedras++;
-			if (temporizadorPiedras==20) { //cada 20*t = 2000 ms
+			if (temporizadorPiedras==20) { //cada 20*t = 1000 ms
 				// crear piedra nueva:
 				Piedra nuevaPiedra = new Piedra(1000, (int)(Math.random()*700), mp.getAuxImgsPiedra());
 				this.piedras.add(nuevaPiedra); //Estas piedras aparecerán de forma aleatoria por la parte derecha de la pantalla.;

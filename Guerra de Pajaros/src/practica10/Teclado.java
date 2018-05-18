@@ -1,6 +1,8 @@
 package practica10;
 
 import hilos.HiloDisparoAmigo;
+import hilos.HiloPajaroMio;
+import hilos.HiloPiedras;
 import objetos.DisparoAmigo;
 import objetos.PajaroMio;
 
@@ -34,9 +36,15 @@ public class Teclado implements KeyListener {
 		// se ha elegido disparar desde coordY+height/2 para poder disparar a cualquier altura, incluidos los bordes de pantalla
 		if (e.getKeyCode()==32) {
 			//Indicaremos al usuario un mensaje de que debe pulsar la barra espaciadora para comenzar a jugar.
-			if (miPanel.getPantalla()==0) {
-				miPanel.setPantalla(1);
+			if (miPanel.getPantalla()==0) { //||miPanel.getPantalla()==2
+				miPanel.setVidas(3);
+				miPanel.sethPajaroMio(new HiloPajaroMio(miPanel));
+				miPanel.gethPajaroMio().start();
+				miPanel.sethPiedras(new HiloPiedras(miPanel)); // Las piedras se crean en hPiedra
 				miPanel.gethPiedras().start();
+				//WIP: nos irán saliendo pájaros enemigos
+				miPanel.sethDisparoAmigo(new HiloDisparoAmigo(miPanel)); // Los disparos se crean en hDisparoAmigo
+				miPanel.setPantalla(1);
 			} else {
 				//Y para disparar utilizaremos la barra espaciadora.
 				if (miPanel.getPantalla()==1) {

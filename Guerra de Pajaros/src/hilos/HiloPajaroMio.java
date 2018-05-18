@@ -15,11 +15,21 @@ public class HiloPajaroMio extends Thread {
 		PajaroMio p = mp.getPajaroMio();
 		while(true){
 			super.run();
-			//Nuestro pájaro estará moviendo las alas
-			p.setnImg(p.getnImg()+1);
-			if (p.getnImg() == p.getImgsPajaroMio().size()){
-				p.setnImg(0);
+			if (p.getImgsPajaroMio().size()==7) { //si imgsPajaroMio=auxImgsExplosion
+				if (p.getnImg()==6) { //si ha acabado la animación de explosión
+					if (mp.getVidas()>0) {
+						mp.setVidas(mp.getVidas()-1);
+					}
+					p.setImgsPajaroMio(mp.getAuxImgsPajaroMio());
+					p.setCoordXPajaroMio(100); p.setCoordYPajaroMio(350);
+					p.setnImg(0);
+				}
 			}
+			//Nuestro pájaro estará moviendo las alas
+			if (p.getnImg() == p.getImgsPajaroMio().size()-1){
+				p.setnImg(-1);
+			}
+			p.setnImg(p.getnImg()+1);
 			mp.repaint();
 			
 			try {
