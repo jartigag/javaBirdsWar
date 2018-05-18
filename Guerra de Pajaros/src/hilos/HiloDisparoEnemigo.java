@@ -16,8 +16,8 @@ public class HiloDisparoEnemigo extends Thread {
 	
 	public void disparar(PajaroEnemigo pe) {
 		// los enemigos disparan desde el centro de su cuadro:
-		DisparoEnemigo nuevoDisparoEnemigo = new DisparoEnemigo(pe.getCoordXPajaroEnemigo()+pe.getImgsPajaroEnemigo().get(0).getWidth(null),
-					pe.getCoordYPajaroEnemigo()+pe.getImgsPajaroEnemigo().get(0).getHeight(null)/2,
+		DisparoEnemigo nuevoDisparoEnemigo = new DisparoEnemigo(pe.getCoordX()+pe.getImgs().get(0).getWidth(null),
+					pe.getCoordY()+pe.getImgs().get(0).getHeight(null)/2,
 					mp.getAuxImgsDisparoEnemigo().get(pe.getTipoEnemigo()));
 		disparosEnemigo.add(nuevoDisparoEnemigo); // crear disparo nuevo
 	}
@@ -25,22 +25,21 @@ public class HiloDisparoEnemigo extends Thread {
 	@Override
 	public void run() {
 		int t = 50; //velocidad de refresco (para avance y giro) del disparo 
-		int temporizadorPajaroEnemigo = 0;
 		while(true){
 			super.run();
 			// mover disparos:
 			for (int i=0; i<disparosEnemigo.size(); i++) {
 				DisparoEnemigo disparoActual = disparosEnemigo.get(i);
-				disparoActual.setCoordXDisparoEnemigo(disparoActual.getCoordXDisparoEnemigo() - 30); //velocidad del disparo
+				disparoActual.setCoordX(disparoActual.getCoordX() - 30); //velocidad del disparo
 				disparoActual.setnImg(disparoActual.getnImg()+1);
-				if (disparoActual.getnImg() == disparosEnemigo.get(i).getImgsDisparoEnemigo().size()){
+				if (disparoActual.getnImg() == disparosEnemigo.get(i).getImgs().size()){
 					disparoActual.setnImg(0);
 				}
 			}
 			// borrar disparos:
 			for (int i=0; i<disparosEnemigo.size(); i++) {
 				DisparoEnemigo disparoActual = disparosEnemigo.get(i);
-				if (disparoActual.getCoordXDisparoEnemigo()<0) {//si posición del disparo fuera de la pantalla
+				if (disparoActual.getCoordX()<0) {//si posición del disparo fuera de la pantalla
 					disparosEnemigo.remove(i);
 				}
 			}

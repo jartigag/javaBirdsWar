@@ -49,8 +49,8 @@ public class Teclado implements KeyListener {
 					} else {
 						auxImgsDisparoAmigo = miPanel.getAuxImgsDisparoAmigo2();
 					}
-					DisparoAmigo nuevoDisparo = new DisparoAmigo(pj.getCoordXPajaroMio()+pj.getImgsPajaroMio().get(0).getWidth(null),
-							pj.getCoordYPajaroMio()+pj.getImgsPajaroMio().get(0).getHeight(null)/2,
+					DisparoAmigo nuevoDisparo = new DisparoAmigo(pj.getCoordX()+pj.getImgs().get(0).getWidth(null),
+							pj.getCoordY()+pj.getImgs().get(0).getHeight(null)/2,
 							auxImgsDisparoAmigo);
 					// se ha elegido disparar desde coordY+height/2 para poder disparar a cualquier altura, incluidos los bordes de pantalla
 					// crear disparo nuevo:

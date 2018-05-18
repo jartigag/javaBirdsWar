@@ -3,43 +3,18 @@ package objetos;
 import java.awt.Image;
 import java.util.ArrayList;
 
-public class DisparoAmigo {
+public class DisparoAmigo extends MiObjeto {
 	
-	private int coordXDisparoAmigo;
-	private int coordYDisparoAmigo;
-	private ArrayList <Image> imgsDisparoAmigo;
+	private int coordX;
+	private int coordY;
+	private ArrayList <Image> imgs;
 	private int nImg;
 
-	public DisparoAmigo(int coordXDisparoAmigo, int coordYDisparoAmigo,	ArrayList <Image> imgsDisparoAmigo) {
-		super();
-		this.coordXDisparoAmigo = coordXDisparoAmigo;
-		this.coordYDisparoAmigo = coordYDisparoAmigo;
-		this.imgsDisparoAmigo = imgsDisparoAmigo;
+	public DisparoAmigo(int coordX, int coordY,	ArrayList <Image> imgs) {
+		super(coordY, coordY, imgs);
+		this.coordX = coordX;
+		this.coordY = coordY;
+		this.imgs = imgs;
 		this.nImg = 0;
-	}
-
-	public int getCoordXDisparoAmigo() {
-		return coordXDisparoAmigo;
-	}
-	public void setCoordXDisparoAmigo(int coordXDisparoAmigo) {
-		this.coordXDisparoAmigo = coordXDisparoAmigo;
-	}
-	public int getCoordYDisparoAmigo() {
-		return coordYDisparoAmigo;
-	}
-	public void setCoordYDisparoAmigo(int coordYDisparoAmigo) {
-		this.coordYDisparoAmigo = coordYDisparoAmigo;
-	}
-	public ArrayList<Image> getImgsDisparoAmigo() {
-		return imgsDisparoAmigo;
-	}
-	public void setImgsDisparoAmigo(ArrayList<Image> imgsDisparoAmigo) {
-		this.imgsDisparoAmigo = imgsDisparoAmigo;
-	}
-	public int getnImg() {
-		return nImg;
-	}
-	public void setnImg(int nImg) {
-		this.nImg = nImg;
 	}
 }

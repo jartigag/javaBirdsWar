@@ -3,42 +3,18 @@ package objetos;
 import java.awt.Image;
 import java.util.ArrayList;
 
-public class PajaroMio {
+public class PajaroMio extends MiObjeto {
 
-	private int coordXPajaroMio;
-	private int coordYPajaroMio;
-	private ArrayList <Image> imgsPajaroMio;
+	private int coordX;
+	private int coordY;
+	private ArrayList <Image> imgs;
 	private int nImg;
 
-	public PajaroMio(int coordXPajaroMio, int coordYPajaroMio, ArrayList<Image> imgsPajaroMio) {
-		super();
-		this.coordXPajaroMio = coordXPajaroMio;
-		this.coordYPajaroMio = coordYPajaroMio;
-		this.imgsPajaroMio = imgsPajaroMio;
+	public PajaroMio(int coordX, int coordY, ArrayList<Image> imgs) {
+		super(coordY, coordY, imgs);
+		this.coordX = coordX;
+		this.coordY = coordY;
+		this.imgs = imgs;
 		this.nImg = 0;
-	}
-	public int getCoordXPajaroMio() {
-		return coordXPajaroMio;
-	}
-	public void setCoordXPajaroMio(int coordXPajaroMio) {
-		this.coordXPajaroMio = coordXPajaroMio;
-	}
-	public int getCoordYPajaroMio() {
-		return coordYPajaroMio;
-	}
-	public void setCoordYPajaroMio(int coordYPajaroMio) {
-		this.coordYPajaroMio = coordYPajaroMio;
-	}
-	public ArrayList<Image> getImgsPajaroMio() {
-		return imgsPajaroMio;
-	}
-	public void setImgsPajaroMio(ArrayList<Image> imgsPajaroMio) {
-		this.imgsPajaroMio = imgsPajaroMio;
-	}
-	public int getnImg() {
-		return nImg;
-	}
-	public void setnImg(int nImg) {
-		this.nImg = nImg;
 	}
 }

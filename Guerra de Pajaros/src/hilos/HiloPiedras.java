@@ -29,7 +29,7 @@ public class HiloPiedras extends Thread {
 			// mover piedras:
 			for (int i=0; i<piedras.size(); i++) {
 				Piedra piedraActual = piedras.get(i);
-				piedraActual.setCoordXPiedra(piedraActual.getCoordXPiedra() - 20); //velocidad de la piedra
+				piedraActual.setCoordX(piedraActual.getCoordX() - 20); //velocidad de la piedra
 				//Y las piedras irán girando.
 				piedraActual.setnImg(piedraActual.getnImg()+1);
 				if (piedraActual.getnImg() == 8){
@@ -39,7 +39,7 @@ public class HiloPiedras extends Thread {
 			// borrar piedras:
 			for (int i=0; i<piedras.size(); i++) {
 				Piedra piedraActual = piedras.get(i);
-				if (piedraActual.getCoordXPiedra()<0) {//si posición de piedra fuera de la pantalla
+				if (piedraActual.getCoordX()<0) {//si posición de piedra fuera de la pantalla
 					if (mp.getPantalla()==1) { // durante el juego
 						mp.setPuntuacion(mp.getPuntuacion()+10);
 					}

@@ -21,16 +21,16 @@ public class HiloDisparoAmigo extends Thread {
 			// mover disparos:
 			for (int i=0; i<disparosAmigo.size(); i++) {
 				DisparoAmigo disparoActual = disparosAmigo.get(i);
-				disparoActual.setCoordXDisparoAmigo(disparoActual.getCoordXDisparoAmigo() + 25); //velocidad del disparo
+				disparoActual.setCoordX(disparoActual.getCoordX() + 25); //velocidad del disparo
 				disparoActual.setnImg(disparoActual.getnImg()+1);
-				if (disparoActual.getnImg() == disparosAmigo.get(i).getImgsDisparoAmigo().size()){
+				if (disparoActual.getnImg() == disparosAmigo.get(i).getImgs().size()){
 					disparoActual.setnImg(0);
 				}
 			}
 			// borrar disparos:
 			for (int i=0; i<disparosAmigo.size(); i++) {
 				DisparoAmigo disparoActual = disparosAmigo.get(i);
-				if (disparoActual.getCoordXDisparoAmigo()>1000) {//si posición del disparo fuera de la pantalla
+				if (disparoActual.getCoordX()>1000) {//si posición del disparo fuera de la pantalla
 					disparosAmigo.remove(i);
 				}
 			}

@@ -21,10 +21,10 @@ public class MouseMover implements MouseMotionListener {
 	public void mouseMoved(MouseEvent e) {
 		if (miPanel.getPantalla()==1) {
 			//Nuestro pájaro lo moveremos por la pantalla utilizando el ratón.
-			int anchoPajaroMio = miPanel.getPajaroMio().getImgsPajaroMio().get(0).getWidth(null);
-			int altoajaroMio = miPanel.getPajaroMio().getImgsPajaroMio().get(0).getHeight(null);
-			miPanel.getPajaroMio().setCoordXPajaroMio(e.getPoint().x-anchoPajaroMio/2);
-			miPanel.getPajaroMio().setCoordYPajaroMio(e.getPoint().y-altoajaroMio/2);
+			int anchoPajaroMio = miPanel.getPajaroMio().getImgs().get(0).getWidth(null);
+			int altoajaroMio = miPanel.getPajaroMio().getImgs().get(0).getHeight(null);
+			miPanel.getPajaroMio().setCoordX(e.getPoint().x-anchoPajaroMio/2);
+			miPanel.getPajaroMio().setCoordY(e.getPoint().y-altoajaroMio/2);
 		}
 	}
 

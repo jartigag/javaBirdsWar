@@ -40,6 +40,7 @@ public class HiloPajaroEnemigo extends Thread {
 				if (pajaroEnemigoActual.getnImg() == 8){
 					pajaroEnemigoActual.setnImg(0);
 					mp.gethDisparoEnemigo().disparar(pajaroEnemigoActual); //cada pajaroEnemigo dispara cada 8*t = 400ms
+					//TODO: disparo cada pajaroEnemigoActual(temporizadorDisparo)
 				}
 			}
 			/* borrar pajarosEnemigos:
