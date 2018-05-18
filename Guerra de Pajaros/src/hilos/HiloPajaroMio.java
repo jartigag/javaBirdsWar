@@ -14,6 +14,7 @@ public class HiloPajaroMio extends Thread {
 	public void run(){
 		PajaroMio p = mp.getPajaroMio();
 		while(true){
+			int t=100; //velocidad de refresco de PajaroMio
 			super.run();
 			if (p.getImgsPajaroMio().size()==7) { //si imgsPajaroMio=auxImgsExplosion
 				if (p.getnImg()==6) { //si ha acabado la animación de explosión
@@ -33,7 +34,7 @@ public class HiloPajaroMio extends Thread {
 			mp.repaint();
 			
 			try {
-				Thread.sleep(100); //velocidad de refresco de PajaroMio
+				Thread.sleep(t);
 			} catch (InterruptedException e) {
 				System.out.println(e);
 			}

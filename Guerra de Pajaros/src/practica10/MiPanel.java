@@ -2,6 +2,7 @@ package practica10;
 
 import hilos.HiloDisparoAmigo;
 import hilos.HiloFondo;
+import hilos.HiloPajaroEnemigo;
 import hilos.HiloPajaroMio;
 import hilos.HiloPiedras;
 
@@ -30,7 +31,10 @@ public class MiPanel extends JPanel {
 	private Image pajaroVida;
 	
 	private PajaroMio pajaroMio;
-	private ArrayList<Image> auxImgsPajaroMio = new ArrayList<Image>();;
+	private ArrayList<Image> auxImgsPajaroMio = new ArrayList<Image>();
+	private ArrayList<Image> auxImgsEnemigo1 = new ArrayList<Image>();
+	private ArrayList<Image> auxImgsEnemigo2 = new ArrayList<Image>();
+	private ArrayList<Image> auxImgsEnemigo3 = new ArrayList<Image>();
 	private ArrayList<Image> auxImgsPiedra = new ArrayList<Image>();
 	private ArrayList<Image> auxImgsDisparoAmigo1 = new ArrayList<Image>();
 	private ArrayList<Image> auxImgsDisparoAmigo2 = new ArrayList<Image>();
@@ -39,6 +43,7 @@ public class MiPanel extends JPanel {
 	private HiloFondo hFondo;
 	private HiloPajaroMio hPajaroMio;
 	private HiloPiedras hPiedras;
+	private HiloPajaroEnemigo hPajaroEnemigo;
 	private HiloDisparoAmigo hDisparoAmigo;
 
 	public MiPanel() {
@@ -73,6 +78,22 @@ public class MiPanel extends JPanel {
 		for (int i=1; i<=8; i++){
 			Image image = t.getImage(getClass().getResource("Mi pajaro/pajaromio0"+i+".png"));
 			auxImgsPajaroMio.add(image);
+		}
+		//TODO: mejorar FOR imgsEnemigo
+		//imágenes de enemigo1
+		for (int i=1; i<=9; i++){
+			Image image = t.getImage(getClass().getResource("enemigos/enemigo1-0"+i+".png"));
+			auxImgsEnemigo1.add(image);
+		}
+		//imágenes de enemigo2
+		for (int i=1; i<=9; i++){
+			Image image = t.getImage(getClass().getResource("enemigos/enemigo2-0"+i+".png"));
+			auxImgsEnemigo2.add(image);
+		}
+		//imágenes de enemigo3
+		for (int i=1; i<=9; i++){
+			Image image = t.getImage(getClass().getResource("enemigos/enemigo3-0"+i+".png"));
+			auxImgsEnemigo3.add(image);
 		}
 		
 		// Crear objetos
