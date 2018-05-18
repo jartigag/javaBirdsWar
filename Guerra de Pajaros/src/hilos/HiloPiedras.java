@@ -1,15 +1,11 @@
 package hilos;
 
-import java.awt.Image;
 import java.util.ArrayList;
-
-import objetos.DisparoAmigo;
 import objetos.Piedra;
 import practica10.MiPanel;
 
 public class HiloPiedras extends Thread {
 	private MiPanel mp;
-	private ArrayList<Image> auxImgsPiedra;
 	private ArrayList<Piedra> piedras = new ArrayList<Piedra>();
 
 	public HiloPiedras(MiPanel miPanel) {
@@ -44,7 +40,9 @@ public class HiloPiedras extends Thread {
 			for (int i=0; i<piedras.size(); i++) {
 				Piedra piedraActual = piedras.get(i);
 				if (piedraActual.getCoordXPiedra()<0) {//si posición de piedra fuera de la pantalla
-					mp.setPuntuacion(mp.getPuntuacion()+10);
+					if (mp.getPantalla()==1) { // durante el juego
+						mp.setPuntuacion(mp.getPuntuacion()+10);
+					}
 					piedras.remove(i);
 				}
 			}

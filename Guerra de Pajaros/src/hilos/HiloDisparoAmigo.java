@@ -1,16 +1,11 @@
 package hilos;
 
-import java.awt.Image;
 import java.util.ArrayList;
-
 import objetos.DisparoAmigo;
-import objetos.PajaroMio;
 import practica10.MiPanel;
 
 public class HiloDisparoAmigo extends Thread {
 	private MiPanel mp;
-	private ArrayList<Image> auxImgsDisparoAmigo1;
-	private ArrayList<Image> auxImgsDisparoAmigo2;
 	private ArrayList<DisparoAmigo> disparosAmigo = new ArrayList<DisparoAmigo>();
 
 	public HiloDisparoAmigo(MiPanel miPanel) {

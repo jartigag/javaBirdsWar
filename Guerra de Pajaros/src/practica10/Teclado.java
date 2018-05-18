@@ -23,21 +23,9 @@ public class Teclado implements KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		PajaroMio pj = miPanel.getPajaroMio();
-		ArrayList<Image> auxImgsDisparoAmigo;
-		//Cuando llego a un total de 500 puntos, a partir de ese momento, tendré el disparo de tipo "disparoamigo2" 
-		if (miPanel.getPuntuacion()<500) {
-			auxImgsDisparoAmigo = miPanel.getAuxImgsDisparoAmigo1();
-		} else {
-			auxImgsDisparoAmigo = miPanel.getAuxImgsDisparoAmigo2();
-		}
-		DisparoAmigo nuevoDisparo = new DisparoAmigo(pj.getCoordXPajaroMio()+pj.getImgsPajaroMio().get(0).getWidth(null),
-				pj.getCoordYPajaroMio()+pj.getImgsPajaroMio().get(0).getHeight(null)/2,
-				auxImgsDisparoAmigo);
-		// se ha elegido disparar desde coordY+height/2 para poder disparar a cualquier altura, incluidos los bordes de pantalla
 		if (e.getKeyCode()==32) {
 			//Indicaremos al usuario un mensaje de que debe pulsar la barra espaciadora para comenzar a jugar.
-			if (miPanel.getPantalla()==0) { //||miPanel.getPantalla()==2
+			if (miPanel.getPantalla()==0) { //TODO: ||miPanel.getPantalla()==2
 				miPanel.setVidas(3);
 				miPanel.sethPajaroMio(new HiloPajaroMio(miPanel));
 				miPanel.gethPajaroMio().start();
@@ -51,6 +39,18 @@ public class Teclado implements KeyListener {
 			} else {
 				//Y para disparar utilizaremos la barra espaciadora.
 				if (miPanel.getPantalla()==1) {
+					PajaroMio pj = miPanel.getPajaroMio();
+					ArrayList<Image> auxImgsDisparoAmigo;
+					//Cuando llego a un total de 500 puntos, a partir de ese momento, tendré el disparo de tipo "disparoamigo2" 
+					if (miPanel.getPuntuacion()<500) {
+						auxImgsDisparoAmigo = miPanel.getAuxImgsDisparoAmigo1();
+					} else {
+						auxImgsDisparoAmigo = miPanel.getAuxImgsDisparoAmigo2();
+					}
+					DisparoAmigo nuevoDisparo = new DisparoAmigo(pj.getCoordXPajaroMio()+pj.getImgsPajaroMio().get(0).getWidth(null),
+							pj.getCoordYPajaroMio()+pj.getImgsPajaroMio().get(0).getHeight(null)/2,
+							auxImgsDisparoAmigo);
+					// se ha elegido disparar desde coordY+height/2 para poder disparar a cualquier altura, incluidos los bordes de pantalla
 					// crear disparo nuevo:
 					miPanel.gethDisparoAmigo().getDisparosAmigo().add(nuevoDisparo);
 					if (miPanel.gethDisparoAmigo().isAlive()==false) { // Si no se ha iniciado hDisparoAmigo

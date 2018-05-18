@@ -8,6 +8,7 @@ public class HiloPajaroMio extends Thread {
 	
 	public HiloPajaroMio(MiPanel miPanel){
 		this.mp = miPanel;
+		mp.setPajaroMio(new PajaroMio(0, 350, mp.getAuxImgsPajaroMio())); //crear pajaroMio
 	}
 
 	@Override

@@ -1,11 +1,5 @@
 package practica10;
 
-import hilos.HiloDisparoAmigo;
-import hilos.HiloFondo;
-import hilos.HiloPajaroEnemigo;
-import hilos.HiloPajaroMio;
-import hilos.HiloPiedras;
-
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
@@ -16,6 +10,13 @@ import java.awt.Toolkit;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
+
+import hilos.HiloDisparoAmigo;
+import hilos.HiloDisparoEnemigo;
+import hilos.HiloFondo;
+import hilos.HiloPajaroEnemigo;
+import hilos.HiloPajaroMio;
+import hilos.HiloPiedras;
 
 import objetos.DisparoAmigo;
 import objetos.PajaroEnemigo;
@@ -46,6 +47,7 @@ public class MiPanel extends JPanel {
 	private HiloPiedras hPiedras;
 	private HiloPajaroEnemigo hPajaroEnemigo;
 	private HiloDisparoAmigo hDisparoAmigo;
+	private HiloDisparoEnemigo hDisparoEnemigo;
 
 	public MiPanel() {
 		Toolkit t = Toolkit.getDefaultToolkit();
@@ -94,9 +96,6 @@ public class MiPanel extends JPanel {
 			Image image = t.getImage(getClass().getResource("disparo amigo/disparoamigo2-0"+i+".png"));
 			auxImgsDisparoAmigo2.add(image);
 		}
-		
-		// Crear objetos
-		pajaroMio = new PajaroMio(0, 350, auxImgsPajaroMio); //TODO: llevar a hPajaroMio?
 
 		// Iniciar hilos
 		hFondo = new HiloFondo(this);
@@ -123,7 +122,10 @@ public class MiPanel extends JPanel {
 			dibujarPajaroEnemigo(g);
 			if (gethDisparoAmigo().isAlive()) {
 				dibujarDisparoAmigo(g);
+			}if (gethDisparoEnemigo().isAlive()) {
+				//TODO: dibujarDisparoEnemigo(g);
 			}
+			
 		}
 		if (pantalla==2) { // pantalla de game over
 			gameover(g);
@@ -196,9 +198,12 @@ public class MiPanel extends JPanel {
 				}
 				pajaroMio.setImgsPajaroMio(auxImgsExplosion); //pajaroMio explota
 				// borrar piedras:
-				for (int j=0; i<hPiedras.getPiedras().size(); j++) {
-					hPiedras.getPiedras().remove(j);
-				}
+				//if (hPiedras.getPiedras()!=null) {
+					for (int j=0; i<hPiedras.getPiedras().size(); j++) {
+						hPiedras.getPiedras().remove(j); /*TODO: evitar "Exception in thread "AWT-EventQueue-1"
+														java.lang.IndexOutOfBoundsException: Index: 1, Size: 1"*/
+					}
+				//}
 				return;
 			}
 			g.drawImage(piedraActual.getImgsPiedra().get(piedraActual.getnImg()),
@@ -316,5 +321,7 @@ public class MiPanel extends JPanel {
 	public void sethPajaroEnemigo(HiloPajaroEnemigo hPajaroEnemigo){this.hPajaroEnemigo = hPajaroEnemigo;}
 	public HiloDisparoAmigo gethDisparoAmigo(){return hDisparoAmigo;}
 	public void sethDisparoAmigo(HiloDisparoAmigo hDisparoAmigo){this.hDisparoAmigo = hDisparoAmigo;}
-	
+	public HiloDisparoEnemigo gethDisparoEnemigo(){return hDisparoEnemigo;}
+	public void sethDisparoEnemigo(HiloDisparoEnemigo hDisparoEnemigo){this.hDisparoEnemigo = hDisparoEnemigo;}
+
 }

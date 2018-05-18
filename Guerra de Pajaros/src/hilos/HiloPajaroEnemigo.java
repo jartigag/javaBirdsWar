@@ -1,15 +1,11 @@
 package hilos;
 
-import java.awt.Image;
 import java.util.ArrayList;
-
 import objetos.PajaroEnemigo;
-import objetos.Piedra;
 import practica10.MiPanel;
 
 public class HiloPajaroEnemigo extends Thread {
 	private MiPanel mp;
-	private ArrayList<Image> auxImgsPajaroEnemigo;
 	private ArrayList<PajaroEnemigo> pajarosEnemigos = new ArrayList<PajaroEnemigo>();
 	
 	public HiloPajaroEnemigo(MiPanel miPanel){
