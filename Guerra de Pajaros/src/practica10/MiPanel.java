@@ -79,7 +79,7 @@ public class MiPanel extends JPanel {
 			Image image = t.getImage(getClass().getResource("piedra/piedra0"+i+".png"));
 			auxImgsPiedra.add(image);
 		}
-		//imágenes de pajaroEnemigo
+		//imágenes de PajaroEnemigo
 		for (int i=1; i<=3; i++) {
 			ArrayList<Image> auxImgsEnemigoTipo = new ArrayList<Image>();
 			//imágenes de enemigo[1,2,3]
@@ -89,17 +89,17 @@ public class MiPanel extends JPanel {
 			}
 			auxImgsEnemigo.add(auxImgsEnemigoTipo);
 		}
-		//imágenes de disparoamigo1
+		//imágenes de DisparoAmigo1
 		for (int i=1; i<=4; i++){
 			Image image = t.getImage(getClass().getResource("disparo amigo/disparoamigo1-0"+i+".png"));
 			auxImgsDisparoAmigo1.add(image);
 		}
-		//imágenes de disparoamigo2
+		//imágenes de DisparoAmigo2
 		for (int i=1; i<=4; i++){
 			Image image = t.getImage(getClass().getResource("disparo amigo/disparoamigo2-0"+i+".png"));
 			auxImgsDisparoAmigo2.add(image);
 		}
-		//imágenes de disparoEnemigo
+		//imágenes de DisparoEnemigo
 		for (int i=1; i<=3; i++) {
 			ArrayList<Image> auxImgsDisparoEnemigoTipo = new ArrayList<Image>();
 			//imágenes de disparoenemigo[1,2,3]
@@ -126,10 +126,10 @@ public class MiPanel extends JPanel {
 			setCoordXFondo(0);
 		}
 
-		if (pantalla==0) { // pantalla de inicio
+		if (pantalla==0) { // pantalla de Inicio
 			inicio(g);
 		}
-		if (pantalla==1) { // pantalla de juego
+		if (pantalla==1) { // pantalla de Juego
 			barraSuperior(g);
 			dibujarPajaroMio(g);
 			dibujarPiedras(g);
@@ -142,7 +142,7 @@ public class MiPanel extends JPanel {
 			//}
 			
 		}
-		if (pantalla==2) { // pantalla de game over
+		if (pantalla==2) { // pantalla de Game Over
 			gameover(g);
 			hPajaroMio.stop();
 			hPajaroEnemigo.stop();
@@ -191,39 +191,37 @@ public class MiPanel extends JPanel {
 		g.drawImage(pajaroMio.getImgs().get(pajaroMio.getnImg()),
 				pajaroMio.getCoordX(), pajaroMio.getCoordY(), this);
 	}
-	
-	//WIP: public boolean chocan(objetivo,disparo)
+
+	public boolean chocan(MiObjeto objetivo, MiObjeto disparo) {
+		// dimensiones del cuadro de objetivo:
+		int inixObj = objetivo.getCoordX(); int finxObj = inixObj + objetivo.getImgs().get(0).getWidth(null);
+		int iniyObj = objetivo.getCoordY(); int finyObj = iniyObj + objetivo.getImgs().get(0).getHeight(null);
+
+		// dimensiones del cuadro de disparo:
+		int inixDsp = disparo.getCoordX(); int finxDsp = inixDsp + disparo.getImgs().get(0).getWidth(null);
+		int iniyDsp = disparo.getCoordY(); int finyDsp = iniyDsp + disparo.getImgs().get(0).getHeight(null);
+
+		// definición de colisión:
+		boolean colision = (inixObj<finxDsp && inixDsp<finxObj && iniyObj<finyDsp && iniyDsp<finyObj);
+
+		return colision;
+	}
 
 	public void dibujarPiedras(Graphics g){
 
-		// dimensiones del cuadro de pajaroMio:
-		int inixPj = pajaroMio.getCoordX(); int finxPj = inixPj + pajaroMio.getImgs().get(0).getWidth(null);
-		int iniyPj = pajaroMio.getCoordY(); int finyPj = iniyPj + pajaroMio.getImgs().get(0).getHeight(null);
-
 		for (int i=0; i<hPiedras.getPiedras().size(); i++) {
 			Piedra piedraActual = hPiedras.getPiedras().get(i);
-
-			// dimensiones del cuadro de piedra:
-			int inixPd = piedraActual.getCoordX(); int finxPd = inixPd + auxImgsPiedra.get(0).getWidth(null);
-			int iniyPd = piedraActual.getCoordY(); int finyPd = iniyPd + auxImgsPiedra.get(0).getHeight(null);
-
-			// definición de colisión:
-			boolean colision = (inixPj<finxPd && inixPd<finxPj && iniyPj<finyPd && iniyPd<finyPj);
-//System.out.println("colis. piedra: "+colision);
-			//En el caso de que choque con alguna de las piedras, explotará
-			if (colision) {
+			
+			if (chocan(pajaroMio,piedraActual)) {
 				if (vidas==0) {
-					pantalla=2;
+					pantalla=2; //Game over
 				}
-				pajaroMio.setImgs(auxImgsExplosion); //pajaroMio explota
+				pajaroMio.setImgs(auxImgsExplosion); // PajaroMio explota
 				// borrar piedras:
-				//if (hPiedras.getPiedras()!=null) {
-					for (int j=0; i<hPiedras.getPiedras().size(); j++) {
-						hPiedras.getPiedras().remove(j); /*TODO: evitar "Exception in thread "AWT-EventQueue-1"
-														java.lang.IndexOutOfBoundsException: Index: 1, Size: 1"*/
-					}
-				//}
-				return;
+				if (hPiedras.getPiedras()!=null) {
+					for (int j=0; i<hPiedras.getPiedras().size(); j++) {hPiedras.getPiedras().remove(j);}
+					//TODO: evitar "Exception in thread "AWT-EventQueue-1" java.lang.IndexOutOfBoundsException: Index: 1, Size: 1"
+				}
 			}
 			g.drawImage(piedraActual.getImgs().get(piedraActual.getnImg()),
 					piedraActual.getCoordX(), piedraActual.getCoordY(), this);
@@ -248,28 +246,31 @@ public class MiPanel extends JPanel {
 
 		for (int i=0; i<hDisparoAmigo.getDisparosAmigo().size(); i++) {
 			DisparoAmigo disparoAmigoActual = hDisparoAmigo.getDisparosAmigo().get(i);
-			// dimensiones del cuadro de disparoActual:
-			int inixDp = disparoAmigoActual.getCoordX(); int finxDp = inixDp + disparoAmigoActual.getImgs().get(0).getWidth(null);
-			int iniyDp = disparoAmigoActual.getCoordY(); int finyDp = iniyDp + disparoAmigoActual.getImgs().get(0).getHeight(null);
 	
 			// He añadido la opción de eliminar piedras con disparos para hacer el juego más fácil
+			// colision con Piedra
 			for (int j=0; j<hPiedras.getPiedras().size(); j++) {
 				Piedra piedraActual = hPiedras.getPiedras().get(j);
-				// dimensiones del cuadro de piedra:
-				int inixPd = piedraActual.getCoordX(); int finxPd = inixPd + auxImgsPiedra.get(0).getWidth(null);
-				int iniyPd = piedraActual.getCoordY(); int finyPd = iniyPd + auxImgsPiedra.get(0).getHeight(null);
-				// definición de colisión:
-				boolean colision = (inixDp<finxPd && inixPd<finxDp && iniyDp<finyPd && iniyPd<finyDp);
 				//En el caso de que choque con alguna de las piedras, explotará
-				if (colision) {
-					//borrar piedra actual:
+				if (chocan(piedraActual,disparoAmigoActual)) {
+					//borrar Piedra actual:
 					hPiedras.getPiedras().remove(hPiedras.getPiedras().indexOf(piedraActual));
 				}
 				g.drawImage(piedraActual.getImgs().get(piedraActual.getnImg()),
 						piedraActual.getCoordX(), piedraActual.getCoordY(), this);
 			}
 			
-			//WIP: colision con pajaroEnemigo
+			// colision con PajaroEnemigo
+			for (int j=0; j<hPajaroEnemigo.getPajarosEnemigos().size(); j++) {
+				PajaroEnemigo pajaroEnemigoActual = hPajaroEnemigo.getPajarosEnemigos().get(j);
+				//En el caso de que choque con alguna de las piedras, explotará
+				if (chocan(pajaroEnemigoActual,disparoAmigoActual)) {
+					//borrar PajaroEnemigo actual:
+					hPajaroEnemigo.getPajarosEnemigos().remove(hPajaroEnemigo.getPajarosEnemigos().indexOf(pajaroEnemigoActual));
+				}
+				g.drawImage(pajaroEnemigoActual.getImgs().get(pajaroEnemigoActual.getnImg()),
+						pajaroEnemigoActual.getCoordX(), pajaroEnemigoActual.getCoordY(), this);
+			}
 
 			g.drawImage(disparoAmigoActual.getImgs().get(disparoAmigoActual.getnImg()),
 					disparoAmigoActual.getCoordX(), disparoAmigoActual.getCoordY(), this);
@@ -295,10 +296,10 @@ public class MiPanel extends JPanel {
 //System.out.println("colis. disparoEnemigo: "+colision);
 			if (colision) {
 				if (vidas==0) {
-					pantalla=2;
+					pantalla=2; //Game over
 				}
-				pajaroMio.setImgs(auxImgsExplosion); //pajaroMio explota
-				// borrar disparosEnemigo:
+				pajaroMio.setImgs(auxImgsExplosion); //PajaroMio explota
+				// borrar DisparosEnemigo:
 				for (int j=0; i<hDisparoEnemigo.getDisparosEnemigo().size(); j++) {
 					hDisparoEnemigo.getDisparosEnemigo().remove(j);
 				}

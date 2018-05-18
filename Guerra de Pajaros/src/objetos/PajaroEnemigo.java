@@ -19,4 +19,12 @@ public class PajaroEnemigo extends MiObjeto {
 		this.tipoEnemigo = tipoEnemigo;
 		this.nImg = 0;
 	}
+
+	public int getTipoEnemigo() {
+		return tipoEnemigo;
+	}
+
+	public void setTipoEnemigo(int tipoEnemigo) {
+		this.tipoEnemigo = tipoEnemigo;
+	}
 }
