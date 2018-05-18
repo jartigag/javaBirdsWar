@@ -24,12 +24,12 @@ public class HiloPajaroEnemigo extends Thread {
 			super.run();
 			temporizadorPajaroEnemigo++;
 			if (temporizadorPajaroEnemigo==50) { //cada 50*t = 5000 ms
-				//WIP: Además, también de forma aleatoria saldrán pájaros diferentes, de los 3 tipos de pájaros enemigos que tenemos
+				//Además, también de forma aleatoria saldrán pájaros diferentes, de los 3 tipos de pájaros enemigos que tenemos
 				// crear pajaroEnemigo nuevo:
 				int rndTipo = (int)(Math.random()*3);
 //System.out.println("rndTipo: "+rndTipo);
 				ArrayList<ArrayList> tipoEnemigo = mp.getAuxImgsEnemigo();
-				PajaroEnemigo nuevoPajaroEnemigo = new PajaroEnemigo(1000, (int)(Math.random()*700), tipoEnemigo.get(rndTipo)); //TODO: rndTipo
+				PajaroEnemigo nuevoPajaroEnemigo = new PajaroEnemigo(1000, (int)(Math.random()*700), tipoEnemigo.get(rndTipo));
 				this.pajarosEnemigos.add(nuevoPajaroEnemigo);//Desde la parte de la derecha además de las piedras nos irán saliendo pájaros enemigos.
 				//Esto saldrán de forma aleatoria en diferentes alturas
 				temporizadorPajaroEnemigo= 0;

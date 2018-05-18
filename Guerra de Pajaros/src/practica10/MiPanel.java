@@ -8,8 +8,10 @@ import hilos.HiloPiedras;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.util.ArrayList;
 
@@ -50,6 +52,10 @@ public class MiPanel extends JPanel {
 		pantalla = 0;
 
 		// Cargar imágenes
+		/*
+		He recortado las imágenes a mano todo lo posible
+		para ajustar mejor las colisiones
+		*/
 		fondo = t.getImage(getClass().getResource("fondo.jpg"));
 		pajaroVida = t.getImage(getClass().getResource("Mi pajaro/pajarovida.png"));
 		//Nuestro pájaro estará moviendo las alas y para ello vamos a utilizar las imágenes: pajaromio01.png hasta pajaromio08.png
@@ -127,9 +133,10 @@ public class MiPanel extends JPanel {
 	public void inicio(Graphics g){
 		Font fuente = new Font("Arial", 1, 30);
 		g.setFont(fuente);
-		g.setColor(Color.GRAY);
+		g.setColor(Color.WHITE);
 		//Indicaremos al usuario un mensaje de que debe pulsar la barra espaciadora para comenzar a jugar.
-		g.drawString("Pulsa BARRA ESPACIADORA para empezar a jugar", 100, 100);
+		Rectangle areaJugar = new Rectangle(200,100,600,50);
+		drawCenteredString(g,"Pulsa BARRA ESPACIADORA para empezar a jugar",areaJugar,fuente);
 	}
 	
 	public void barraSuperior(Graphics g){
@@ -137,12 +144,13 @@ public class MiPanel extends JPanel {
 		Font fuente = new Font("Arial", 1, 30);
 		g.setFont(fuente);
 		g.setColor(Color.BLACK);
-		g.drawString(String.format("%07d", puntuacion), 820, 30);
+		Rectangle areaPuntuacion = new Rectangle(800,0,200,50);
+		drawCenteredString(g,String.format("%07d", puntuacion),areaPuntuacion,fuente);
 
 		// Vidas
 		/* Como en mi ordenador al usar
-		 * Image resizedPajaro = pajaro.getScaledInstance(60, 60, Image.SCALE_DEFAULT);
-		 * la imagen redimensionada parpadeaba, he redimensionado a mano el pájaro para usarlo en el contador de vidas
+		Image resizedPajaro = pajaro.getScaledInstance(60, 60, Image.SCALE_DEFAULT);
+		la imagen redimensionada parpadeaba, he redimensionado a mano el pájaro para usarlo en el contador de vidas
 		 */
 		for (int i=0; i<vidas; i++) {
 			g.drawImage(pajaroVida, 20+i*80, 10, this);
@@ -244,15 +252,31 @@ public class MiPanel extends JPanel {
 	}
 
 	private void gameover(Graphics g) {
-		//TODO textos centrados
 		Font fuente = new Font("Arial", 1, 30);
 		g.setFont(fuente);
 		g.setColor(Color.RED);
-		g.drawString("GAME OVER", 420, 350);
+		Rectangle areaGameOver = new Rectangle(200,50,600,50);
+		drawCenteredString(g,"GAME OVER",areaGameOver,fuente);
+		g.setColor(Color.WHITE);
+		Rectangle areaJugar = new Rectangle(200,100,600,50);
+		drawCenteredString(g,"Pulsa BARRA ESPACIADORA para volver a jugar",areaJugar,fuente);
 		g.setColor(Color.BLACK);
-		g.drawString(String.format("%07d", puntuacion), 450, 200);
-		/*g.setColor(Color.GRAY);
-		g.drawString("Pulsa BARRA ESPACIADORA para volver a jugar", 150, 100);*/
+		Rectangle areaPuntuacion = new Rectangle(200,300,600,100);
+		drawCenteredString(g,String.format("%07d", puntuacion),areaPuntuacion,fuente);
+	}
+	
+	public void drawCenteredString(Graphics g, String text, Rectangle rect, Font font) {
+		/* Método para centrar los textos en un área */
+	    // Get the FontMetrics
+	    FontMetrics metrics = g.getFontMetrics(font);
+	    // Determine the X coordinate for the text
+	    int x = rect.x + (rect.width - metrics.stringWidth(text)) / 2;
+	    // Determine the Y coordinate for the text (note we add the ascent, as in java 2d 0 is top of the screen)
+	    int y = rect.y + ((rect.height - metrics.getHeight()) / 2) + metrics.getAscent();
+	    // Set the font
+	    g.setFont(font);
+	    // Draw the String
+	    g.drawString(text, x, y);
 	}
 
 	// GETTERS Y SETTERS
