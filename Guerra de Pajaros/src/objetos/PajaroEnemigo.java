@@ -8,13 +8,15 @@ public class PajaroEnemigo {
 	private int coordXPajaroEnemigo;
 	private int coordYPajaroEnemigo;
 	private ArrayList <Image> imgsPajaroEnemigo;
+	private int tipoEnemigo;
 	private int nImg;
 
-	public PajaroEnemigo(int coordXPajaroEnemigo, int coordYPajaroEnemigo, ArrayList<Image> imgsPajaroEnemigo) {
+	public PajaroEnemigo(int coordXPajaroEnemigo, int coordYPajaroEnemigo, int tipoEnemigo, ArrayList<Image> imgsPajaroEnemigo) {
 		super();
 		this.coordXPajaroEnemigo = coordXPajaroEnemigo;
 		this.coordYPajaroEnemigo = coordYPajaroEnemigo;
 		this.imgsPajaroEnemigo = imgsPajaroEnemigo;
+		this.tipoEnemigo = tipoEnemigo;
 		this.nImg = 0;
 	}
 
@@ -40,6 +42,14 @@ public class PajaroEnemigo {
 
 	public void setImgsPajaroEnemigo(ArrayList<Image> imgsPajaroEnemigo) {
 		this.imgsPajaroEnemigo = imgsPajaroEnemigo;
+	}
+
+	public int getTipoEnemigo() {
+		return tipoEnemigo;
+	}
+
+	public void setTipoEnemigo(int tipoEnemigo) {
+		this.tipoEnemigo = tipoEnemigo;
 	}
 
 	public int getnImg() {

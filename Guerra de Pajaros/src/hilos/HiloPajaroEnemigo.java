@@ -14,18 +14,18 @@ public class HiloPajaroEnemigo extends Thread {
 	
 	@Override
 	public void run(){
-		int t = 100; //velocidad de refresco de PajaroEnemigo
+		int t = 50; //velocidad de refresco de PajaroEnemigo
 		int temporizadorPajaroEnemigo = 0;
 		while(true){
 			super.run();
 			temporizadorPajaroEnemigo++;
-			if (temporizadorPajaroEnemigo==50) { //cada 50*t = 5000 ms
+			if (temporizadorPajaroEnemigo==100) { //cada 100*t = 5000 ms
 				//Además, también de forma aleatoria saldrán pájaros diferentes, de los 3 tipos de pájaros enemigos que tenemos
 				// crear pajaroEnemigo nuevo:
 				int rndTipo = (int)(Math.random()*3);
 //System.out.println("rndTipo: "+rndTipo);
 				ArrayList<ArrayList> tipoEnemigo = mp.getAuxImgsEnemigo();
-				PajaroEnemigo nuevoPajaroEnemigo = new PajaroEnemigo(1000, (int)(Math.random()*700), tipoEnemigo.get(rndTipo));
+				PajaroEnemigo nuevoPajaroEnemigo = new PajaroEnemigo(800, (int)(Math.random()*700), rndTipo, tipoEnemigo.get(rndTipo));
 				this.pajarosEnemigos.add(nuevoPajaroEnemigo);//Desde la parte de la derecha además de las piedras nos irán saliendo pájaros enemigos.
 				//Estos saldrán de forma aleatoria en diferentes alturas
 				if (mp.gethDisparoEnemigo().isAlive()==false) { // Si no se ha iniciado hDisparoEnemigo
@@ -36,21 +36,20 @@ public class HiloPajaroEnemigo extends Thread {
 			// mover pajarosEnemigos:
 			for (int i=0; i<pajarosEnemigos.size(); i++) {
 				PajaroEnemigo pajaroEnemigoActual = pajarosEnemigos.get(i);
-				pajaroEnemigoActual.setCoordXPajaroEnemigo(pajaroEnemigoActual.getCoordXPajaroEnemigo() - 20); //velocidad del PajaroEnemigo
-				//Y las piedras irán girando.
 				pajaroEnemigoActual.setnImg(pajaroEnemigoActual.getnImg()+1);
 				if (pajaroEnemigoActual.getnImg() == 8){
 					pajaroEnemigoActual.setnImg(0);
+					mp.gethDisparoEnemigo().disparar(pajaroEnemigoActual); //cada pajaroEnemigo dispara cada 8*t = 400ms
 				}
 			}
-			// borrar pajarosEnemigos:
+			/* borrar pajarosEnemigos:
 			for (int i=0; i<pajarosEnemigos.size(); i++) {
 				PajaroEnemigo pajaroEnemigoActual = pajarosEnemigos.get(i);
 				if (pajaroEnemigoActual.getCoordXPajaroEnemigo()<0) {//si posición de PajaroEnemigo fuera de la pantalla
 					mp.setPuntuacion(mp.getPuntuacion()+10);
 					pajarosEnemigos.remove(i);
 				}
-			}
+			}*/
 
 			mp.repaint();
 
