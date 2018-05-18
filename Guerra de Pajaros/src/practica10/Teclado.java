@@ -1,6 +1,7 @@
 package practica10;
 
 import hilos.HiloDisparoAmigo;
+import hilos.HiloPajaroEnemigo;
 import hilos.HiloPajaroMio;
 import hilos.HiloPiedras;
 import objetos.DisparoAmigo;
@@ -43,6 +44,8 @@ public class Teclado implements KeyListener {
 				miPanel.sethPiedras(new HiloPiedras(miPanel)); // Las piedras se crean en hPiedra
 				miPanel.gethPiedras().start();
 				//WIP: nos irán saliendo pájaros enemigos
+				miPanel.sethPajaroEnemigo(new HiloPajaroEnemigo(miPanel));
+				miPanel.gethPajaroEnemigo().start();
 				//WIP:  Además, también de forma aleatoria saldrán pájaros diferentes, de los 3 tipos de pájaros enemigos que tenemos
 				miPanel.sethDisparoAmigo(new HiloDisparoAmigo(miPanel)); // Los disparos se crean en hDisparoAmigo
 				miPanel.setPantalla(1);

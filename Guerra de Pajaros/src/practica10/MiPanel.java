@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 
 import objetos.DisparoAmigo;
+import objetos.PajaroEnemigo;
 import objetos.PajaroMio;
 import objetos.Piedra;
 
@@ -119,8 +120,9 @@ public class MiPanel extends JPanel {
 		}
 		if (pantalla==1) { // pantalla de juego
 			barraSuperior(g);
-			dibujarPiedras(g);
 			dibujarPajaroMio(g);
+			dibujarPiedras(g);
+			dibujarPajaroEnemigo(g);
 			if (gethDisparoAmigo().isAlive()) {
 				dibujarDisparoAmigo(g);
 			}
@@ -162,8 +164,12 @@ public class MiPanel extends JPanel {
 		g.setColor(Color.BLUE);
 		g.fillRect(350, 20, (int) (vida100*0.1), 10); //Encima, una franja azul que iremos poniendo más pequeña
 	}
-	
-	@SuppressWarnings("deprecation")
+
+	public void dibujarPajaroMio(Graphics g){
+		g.drawImage(pajaroMio.getImgsPajaroMio().get(pajaroMio.getnImg()),
+				pajaroMio.getCoordXPajaroMio(), pajaroMio.getCoordYPajaroMio(), this);
+	}
+
 	public void dibujarPiedras(Graphics g){
 
 		// dimensiones del cuadro de pajaroMio:
@@ -184,9 +190,9 @@ public class MiPanel extends JPanel {
 			if (colision) {
 				if (vidas==0) {
 					pantalla=2;
-					hPajaroMio.stop();;
+					/*hPajaroMio.stop();;
 					hPiedras.stop();
-					hDisparoAmigo.stop();
+					hDisparoAmigo.stop();*/ //TODO: hilo.stop() no funciona
 				}
 				pajaroMio.setImgsPajaroMio(auxImgsExplosion); //el pájaro explota
 				// borrar piedras:
@@ -199,9 +205,13 @@ public class MiPanel extends JPanel {
 					piedraActual.getCoordXPiedra(), piedraActual.getCoordYPiedra(), this);
 		}
 	}
-	public void dibujarPajaroMio(Graphics g){
-		g.drawImage(pajaroMio.getImgsPajaroMio().get(pajaroMio.getnImg()),
-				pajaroMio.getCoordXPajaroMio(), pajaroMio.getCoordYPajaroMio(), this);
+
+	private void dibujarPajaroEnemigo(Graphics g) {
+		for (int i=0; i<hPajaroEnemigo.getPajarosEnemigos().size(); i++) {
+			PajaroEnemigo pajaroEnemigoActual = hPajaroEnemigo.getPajarosEnemigos().get(i);
+			g.drawImage(pajaroEnemigoActual.getImgsPajaroEnemigo().get(pajaroEnemigoActual.getnImg()),
+					pajaroEnemigoActual.getCoordXPajaroEnemigo(), pajaroEnemigoActual.getCoordYPajaroEnemigo(), this);
+		}	
 	}
 
 	private void dibujarDisparoAmigo(Graphics g) {
@@ -220,8 +230,8 @@ public class MiPanel extends JPanel {
 		g.drawString("GAME OVER", 420, 350);
 		g.setColor(Color.BLACK);
 		g.drawString(String.format("%07d", puntuacion), 450, 200);
-		g.setColor(Color.GRAY);
-		g.drawString("Pulsa BARRA ESPACIADORA para volver a jugar", 150, 100);
+		/*g.setColor(Color.GRAY);
+		g.drawString("Pulsa BARRA ESPACIADORA para volver a jugar", 150, 100);*/
 	}
 
 	// GETTERS Y SETTERS
@@ -243,6 +253,8 @@ public class MiPanel extends JPanel {
 	public void setPajaroMio(PajaroMio pajaroMio){this.pajaroMio = pajaroMio;}
 	public ArrayList<Image> getAuxImgsPajaroMio(){return auxImgsPajaroMio;}
 	public void setAuxImgsPajaroMio(ArrayList<Image> auxImgsPajaroMio){this.auxImgsPajaroMio = auxImgsPajaroMio;}
+	public ArrayList<Image> getAuxImgsEnemigo1(){return auxImgsEnemigo1;}
+	public void setAuxImgsEnemigo1(ArrayList<Image> auxImgsEnemigo1){this.auxImgsEnemigo1 = auxImgsEnemigo1;}
 	public ArrayList<Image> getAuxImgsPiedra(){return auxImgsPiedra;}
 	public void setAuxImgsPiedra(ArrayList<Image> auxImgsPiedra){this.auxImgsPiedra = auxImgsPiedra;}
 	public ArrayList<Image> getAuxImgsDisparoAmigo1(){return auxImgsDisparoAmigo1;}
@@ -255,6 +267,8 @@ public class MiPanel extends JPanel {
 	public void sethPajaroMio(HiloPajaroMio hPajaroMio){this.hPajaroMio = hPajaroMio;}
 	public HiloPiedras gethPiedras(){return hPiedras;}
 	public void sethPiedras(HiloPiedras hPiedras){this.hPiedras = hPiedras;}
+	public HiloPajaroEnemigo gethPajaroEnemigo(){return hPajaroEnemigo;}
+	public void sethPajaroEnemigo(HiloPajaroEnemigo hPajaroEnemigo){this.hPajaroEnemigo = hPajaroEnemigo;}
 	public HiloDisparoAmigo gethDisparoAmigo(){return hDisparoAmigo;}
 	public void sethDisparoAmigo(HiloDisparoAmigo hDisparoAmigo){this.hDisparoAmigo = hDisparoAmigo;}
 	
