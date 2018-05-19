@@ -29,6 +29,7 @@ public class Teclado implements KeyListener {
 				miPanel.setCoordXFondo(0);
 				miPanel.setPuntuacion(0);
 				miPanel.setVidas(3);
+				miPanel.setNuevaPuntuacionGuardada(false);
 				miPanel.sethPajaroMio(new HiloPajaroMio(miPanel));
 				miPanel.gethPajaroMio().start();
 				miPanel.sethPiedras(new HiloPiedras(miPanel)); // Las piedras se crean en hPiedra

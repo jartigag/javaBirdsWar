@@ -30,7 +30,9 @@ public class MiPanel extends JPanel {
 	private int pantalla;
 	private int coordXFondo;
 	private int puntuacion;
-	private int vidas = 3;
+	private int vidas;
+	private Puntos pts;
+	boolean nuevaPuntuacionGuardada;
 
 	private Image fondo;
 	private Image pajaroVida;
@@ -53,7 +55,8 @@ public class MiPanel extends JPanel {
 
 	public MiPanel() {
 		Toolkit t = Toolkit.getDefaultToolkit();
-		pantalla = 0;
+		pts = new Puntos();
+		pts.conectarDB();
 
 		// Cargar imágenes
 		/*
@@ -109,6 +112,12 @@ public class MiPanel extends JPanel {
 			auxImgsDisparoEnemigo.add(auxImgsDisparoEnemigoTipo);
 		}
 
+		// Variables de inicio
+		pantalla = 0;
+		vidas = 3;
+		puntuacion = 0;
+		nuevaPuntuacionGuardada = false;
+
 		// Iniciar hilos
 		hFondo = new HiloFondo(this);
 		hFondo.start();
@@ -127,6 +136,7 @@ public class MiPanel extends JPanel {
 
 		if (pantalla==0) { // pantalla de Inicio
 			inicio(g);
+			mostrarPuntos(g);
 		}
 		if (pantalla==1) { // pantalla de Juego
 			barraSuperior(g);
@@ -138,11 +148,26 @@ public class MiPanel extends JPanel {
 		}
 		if (pantalla==2) { // pantalla de Game Over
 			gameover(g);
+			mostrarPuntos(g);
 			hPajaroMio.stop();
 			hPajaroEnemigo.stop();
 			hPiedras.stop();
 			hDisparoAmigo.stop();
 			hDisparoEnemigo.stop();
+		}
+	}
+
+	private void mostrarPuntos(Graphics g) {
+		//TODO: Al arrancar el programa mostrará un listado (cargado de la base de datos) con las 10 mejores puntuaciones
+		Font fuente = new Font("Arial", 1, 24);
+		g.setFont(fuente);
+		g.setColor(Color.YELLOW);
+		Rectangle areaTop = new Rectangle(0,250,1000,50);
+		drawCenteredString(g,"TOP TEN",areaTop,fuente);
+		fuente = new Font("Arial", 1, 24);
+		for (int i=0; i<pts.tablaPuntos().size(); i++) {
+			Rectangle areaLinea = new Rectangle(0,300+30*i,1000,50);
+			drawCenteredString(g,pts.tablaPuntos().get(i),areaLinea,fuente);
 		}
 	}
 
@@ -309,8 +334,12 @@ public class MiPanel extends JPanel {
 		Rectangle areaJugar = new Rectangle(200,100,600,50);
 		drawCenteredString(g,"Pulsa BARRA ESPACIADORA para volver a jugar",areaJugar,fuente);
 		g.setColor(Color.BLACK);
-		Rectangle areaPuntuacion = new Rectangle(200,300,600,100);
+		Rectangle areaPuntuacion = new Rectangle(200,150,600,100);
 		drawCenteredString(g,String.format("%07d", puntuacion),areaPuntuacion,fuente);
+		if (!nuevaPuntuacionGuardada) {
+			pts.insertInto(puntuacion);
+			nuevaPuntuacionGuardada = true;
+		}
 	}
 	
 	public void drawCenteredString(Graphics g, String text, Rectangle rect, Font font) {
@@ -336,6 +365,8 @@ public class MiPanel extends JPanel {
 	public void setPuntuacion(int puntuacion){this.puntuacion = puntuacion;}
 	public int getVidas(){return vidas;}
 	public void setVidas(int vidas){this.vidas = vidas;}
+	public boolean isNuevaPuntuacionGuardada(){	return nuevaPuntuacionGuardada;}
+	public void setNuevaPuntuacionGuardada(boolean nuevaPuntuacionGuardada){this.nuevaPuntuacionGuardada = nuevaPuntuacionGuardada;}
 	public Image getFondo(){return fondo;}
 	public void setFondo(Image fondo){this.fondo = fondo;}
 	public Image getPajaroVida(){return pajaroVida;}
