@@ -44,19 +44,12 @@ public class Puntos {
 
 		try {
 			connect = DriverManager.getConnection("jdbc:sqlite:" + url);
-if (connect != null) {
-	System.out.println("DB puntuaciones conectada");
-} else {
-	System.out.println("Error al conectar con DB puntuaciones");
-}
-
 			connect.setAutoCommit(false);
 			Statement stmt = connect.createStatement();
 			String query = "CREATE TABLE IF NOT EXISTS `puntuaciones` (`id`	INTEGER NOT NULL,`puntos` INTEGER NOT NULL,	PRIMARY KEY(`id`));";
 			stmt.executeUpdate(query);
 			stmt.close();
 			connect.commit();
-System.out.println("tabla creada");
 		} catch (SQLException e) {
 			// Auto-generated catch block
 			e.printStackTrace();
