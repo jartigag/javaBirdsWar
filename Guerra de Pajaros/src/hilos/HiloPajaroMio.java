@@ -18,10 +18,8 @@ public class HiloPajaroMio extends Thread {
 			int t=100; //velocidad de refresco de PajaroMio
 			super.run();
 			if (p.getImgs().size()==7) { //si imgsPajaroMio=auxImgsExplosion
-				if (p.getnImg()==6) { //si ha acabado la animación de explosión
-					if (mp.getVidas()>0) {
-						mp.setVidas(mp.getVidas()-1);
-					}
+				if (p.getnImg()==6) { //si ha acabado la animación de explosión,
+					//reiniciar posición PajaroMio
 					p.setImgs(mp.getAuxImgsPajaroMio());
 					p.setCoordX(100); p.setCoordY(350);
 					p.setnImg(0);

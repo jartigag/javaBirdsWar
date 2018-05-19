@@ -3,6 +3,9 @@ package objetos;
 import java.awt.Image;
 import java.util.ArrayList;
 
+// MiObjeto permite definir chocan(MiObjeto objetivo, MiObjeto disparo) en MiPanel.
+// Los objetos del juego son hijos de MiObjeto
+
 public class MiObjeto {
 	
 	private int coordX;

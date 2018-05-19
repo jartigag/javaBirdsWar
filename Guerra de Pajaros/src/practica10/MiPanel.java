@@ -28,10 +28,9 @@ import objetos.Piedra;
 public class MiPanel extends JPanel {
 	
 	private int pantalla;
-	private int coordXFondo = 0;
-	private int puntuacion = 0;
+	private int coordXFondo;
+	private int puntuacion;
 	private int vidas = 3;
-	private int vida100 = 300;
 
 	private Image fondo;
 	private Image pajaroVida;
@@ -218,38 +217,43 @@ public class MiPanel extends JPanel {
 		for (int i=0; i<hPiedras.getPiedras().size(); i++) {
 			Piedra piedraActual = hPiedras.getPiedras().get(i);
 
+			g.drawImage(piedraActual.getImgs().get(piedraActual.getnImg()),
+					piedraActual.getCoordX(), piedraActual.getCoordY(), this);
+
 			//En el caso de que choque con alguna de las piedras, explotará
 			if (chocan(pajaroMio,piedraActual)) {
 				vidas--;
 				pajaroMio.setVida(100);
 				pajaroMio.setImgs(auxImgsExplosion); // PajaroMio explota
+				pajaroMio.setnImg(0);
 				if (vidas==-1) {
 					pantalla=2; //Game over
 				}
 				//borrar piedraActual:
 				hPiedras.getPiedras().remove(hPiedras.getPiedras().indexOf(piedraActual));
 				}
-			g.drawImage(piedraActual.getImgs().get(piedraActual.getnImg()),
-					piedraActual.getCoordX(), piedraActual.getCoordY(), this);
 		}
 	}
 
 	private void dibujarDisparoAmigo(Graphics g) {
-		//TODO: puntos por matar enemigos
 		for (int i=0; i<hDisparoAmigo.getDisparosAmigo().size(); i++) {
 			DisparoAmigo disparoAmigoActual = hDisparoAmigo.getDisparosAmigo().get(i);
+
+			g.drawImage(disparoAmigoActual.getImgs().get(disparoAmigoActual.getnImg()),
+					disparoAmigoActual.getCoordX(), disparoAmigoActual.getCoordY(), this);
 
 			// colisión con Piedra
 			for (int j=0; j<hPiedras.getPiedras().size(); j++) {
 				Piedra piedraActual = hPiedras.getPiedras().get(j);
-				if (chocan(piedraActual,disparoAmigoActual)) {
-					//borrar disparoAmigoActual:
-					hDisparoAmigo.getDisparosAmigo().remove(hDisparoAmigo.getDisparosAmigo().indexOf(disparoAmigoActual));
-					//borrar piedraActual:
-					hPiedras.getPiedras().remove(hPiedras.getPiedras().indexOf(piedraActual));
-				}
 				g.drawImage(piedraActual.getImgs().get(piedraActual.getnImg()),
 						piedraActual.getCoordX(), piedraActual.getCoordY(), this);
+				if (chocan(piedraActual,disparoAmigoActual)) {
+					setPuntuacion(getPuntuacion()+5); // +5 puntos por piedra alcanzada
+					//borrar disparoAmigoActual:
+					hDisparoAmigo.getDisparosAmigo().remove(hDisparoAmigo.getDisparosAmigo().indexOf(disparoAmigoActual));
+					piedraActual.setImgs(auxImgsExplosion); // piedraActual explota
+					piedraActual.setnImg(0);
+				}
 			}
 			
 			// colisión con PajaroEnemigo
@@ -261,14 +265,12 @@ public class MiPanel extends JPanel {
 					//borrar disparoAmigoActual:
 					hDisparoAmigo.getDisparosAmigo().remove(hDisparoAmigo.getDisparosAmigo().indexOf(disparoAmigoActual));
 					if (pajaroEnemigoActual.getVida()<=0) {
-						//borrar pajaroEnemigoActual:
-						hPajaroEnemigo.getPajarosEnemigos().remove(hPajaroEnemigo.getPajarosEnemigos().indexOf(pajaroEnemigoActual));
+						setPuntuacion(getPuntuacion()+pajaroEnemigoActual.getTipoEnemigo()*10); // +tipoEnemigo*10 puntos por pajaroEnemigo alcanzado
+						pajaroEnemigoActual.setImgs(auxImgsExplosion); // piedraActual explota
+						pajaroEnemigoActual.setnImg(0);
 					}
 				}
 			}
-
-			g.drawImage(disparoAmigoActual.getImgs().get(disparoAmigoActual.getnImg()),
-					disparoAmigoActual.getCoordX(), disparoAmigoActual.getCoordY(), this);
 		}
 	}
 
@@ -277,10 +279,14 @@ public class MiPanel extends JPanel {
 		for (int i=0; i<hDisparoEnemigo.getDisparosEnemigo().size(); i++) {
 			DisparoEnemigo disparoEnemigoActual = hDisparoEnemigo.getDisparosEnemigo().get(i);
 
+			g.drawImage(disparoEnemigoActual.getImgs().get(disparoEnemigoActual.getnImg()),
+					disparoEnemigoActual.getCoordX(), disparoEnemigoActual.getCoordY(), this);
+
 			if (chocan(pajaroMio,disparoEnemigoActual)) {
 				pajaroMio.setVida(pajaroMio.getVida()-disparoEnemigoActual.getVidaQuita());
 				if (pajaroMio.getVida()<=0) {
 					pajaroMio.setImgs(auxImgsExplosion); //PajaroMio explota
+					pajaroMio.setnImg(0);
 					vidas--;
 					pajaroMio.setVida(100);
 				}
@@ -290,8 +296,6 @@ public class MiPanel extends JPanel {
 					pantalla=2; //Game over
 				}
 			}
-			g.drawImage(disparoEnemigoActual.getImgs().get(disparoEnemigoActual.getnImg()),
-					disparoEnemigoActual.getCoordX(), disparoEnemigoActual.getCoordY(), this);
 		}
 	}
 
@@ -332,8 +336,6 @@ public class MiPanel extends JPanel {
 	public void setPuntuacion(int puntuacion){this.puntuacion = puntuacion;}
 	public int getVidas(){return vidas;}
 	public void setVidas(int vidas){this.vidas = vidas;}
-	public int getVida100(){return vida100;}
-	public void setVida100(int vida100){this.vida100 = vida100;}
 	public Image getFondo(){return fondo;}
 	public void setFondo(Image fondo){this.fondo = fondo;}
 	public Image getPajaroVida(){return pajaroVida;}

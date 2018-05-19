@@ -32,21 +32,28 @@ public class HiloPajaroEnemigo extends Thread {
 				}
 				temporizadorPajaroEnemigo= 0;
 			}
+			// mover pájaros:
 			for (int i=0; i<pajarosEnemigos.size(); i++) {
 				PajaroEnemigo pajaroEnemigoActual = pajarosEnemigos.get(i);
 				
 				// mover pajaroEnemigoActual:
-				pajaroEnemigoActual.setnImg(pajaroEnemigoActual.getnImg()+1);
-				if (pajaroEnemigoActual.getnImg() == 8){
-					pajaroEnemigoActual.setnImg(0);
-				}
-
-				// pajaroEnemigoActual dispara:
-				if (pajaroEnemigoActual.getTemporizadorDisparo()==20) {
-					mp.gethDisparoEnemigo().disparar(pajaroEnemigoActual); //cada pajaroEnemigo dispara cada 20*t = 1000ms
-					pajaroEnemigoActual.setTemporizadorDisparo(0);
-				} else {
-					pajaroEnemigoActual.setTemporizadorDisparo(pajaroEnemigoActual.getTemporizadorDisparo()+1);
+				if (pajaroEnemigoActual.getImgs().size()==7) { //si imgsPajaroEnemigo=auxImgsExplosion
+					pajaroEnemigoActual.setnImg(pajaroEnemigoActual.getnImg()+1);
+					if (pajaroEnemigoActual.getnImg()==6) { //si ha acabado la animación de explosión,
+						pajarosEnemigos.remove(pajarosEnemigos.indexOf(pajaroEnemigoActual)); //borrar pajaroEnemigoActual
+					}
+				} else { //si no está explotando
+					pajaroEnemigoActual.setnImg(pajaroEnemigoActual.getnImg()+1);
+					if (pajaroEnemigoActual.getnImg() == 8) {
+						pajaroEnemigoActual.setnImg(0);
+					}
+					// pajaroEnemigoActual dispara:
+					if (pajaroEnemigoActual.getTemporizadorDisparo()==20) {
+						mp.gethDisparoEnemigo().disparar(pajaroEnemigoActual); //cada pajaroEnemigo dispara cada 20*t = 1000ms
+						pajaroEnemigoActual.setTemporizadorDisparo(0);
+					} else {
+						pajaroEnemigoActual.setTemporizadorDisparo(pajaroEnemigoActual.getTemporizadorDisparo()+1);
+					}
 				}
 			}
 

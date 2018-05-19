@@ -30,20 +30,20 @@ public class HiloPiedras extends Thread {
 			for (int i=0; i<piedras.size(); i++) {
 				Piedra piedraActual = piedras.get(i);
 				piedraActual.setCoordX(piedraActual.getCoordX() - 20); //velocidad de la piedra
-				//Y las piedras irán girando.
-				piedraActual.setnImg(piedraActual.getnImg()+1);
-				if (piedraActual.getnImg() == 8){
-					piedraActual.setnImg(0);
-				}
-			}
-			// borrar piedras:
-			for (int i=0; i<piedras.size(); i++) {
-				Piedra piedraActual = piedras.get(i);
-				if (piedraActual.getCoordX()<0) {//si posición de piedra fuera de la pantalla
-					if (mp.getPantalla()==1) { // durante el juego
-						mp.setPuntuacion(mp.getPuntuacion()+10);
+				if (piedraActual.getImgs().size()==7) { //si imgsPiedra=auxImgsExplosion
+					piedraActual.setnImg(piedraActual.getnImg()+1);
+					if (piedraActual.getnImg()==6) { //si ha acabado la animación de explosión,
+						piedras.remove(piedras.indexOf(piedraActual)); //borrar piedraActual
 					}
-					piedras.remove(i);
+				} else { //si no está explotando
+					//Las piedras irán girando.
+					piedraActual.setnImg(piedraActual.getnImg()+1);
+					if (piedraActual.getnImg() == 8) {
+						piedraActual.setnImg(0);
+					}
+					if (piedraActual.getCoordX()<0) {//si posición de piedra fuera de la pantalla
+						piedras.remove(i); //borrar piedraActual
+					}
 				}
 			}
 

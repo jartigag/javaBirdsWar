@@ -13,7 +13,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
-
 public class Teclado implements KeyListener {
 	
 	private MiPanel miPanel;
@@ -26,7 +25,9 @@ public class Teclado implements KeyListener {
 	public void keyPressed(KeyEvent e) {
 		if (e.getKeyCode()==32) {
 			//Indicaremos al usuario un mensaje de que debe pulsar la barra espaciadora para comenzar a jugar.
-			if (miPanel.getPantalla()==0) { //TODO: ||miPanel.getPantalla()==2
+			if (miPanel.getPantalla()==0||miPanel.getPantalla()==2) { //si viene de pantallas Inicio o Game Over
+				miPanel.setCoordXFondo(0);
+				miPanel.setPuntuacion(0);
 				miPanel.setVidas(3);
 				miPanel.sethPajaroMio(new HiloPajaroMio(miPanel));
 				miPanel.gethPajaroMio().start();
@@ -37,10 +38,10 @@ public class Teclado implements KeyListener {
 				miPanel.gethPajaroEnemigo().start();
 				miPanel.sethDisparoAmigo(new HiloDisparoAmigo(miPanel)); // disparosAmigo se crean en hDisparoAmigo
 				miPanel.sethDisparoEnemigo(new HiloDisparoEnemigo(miPanel)); // disparosEnemigo se crean en hDisparoEnemigo
-				miPanel.setPantalla(1);
+				miPanel.setPantalla(1); //pantalla Juego
 			} else {
 				//Y para disparar utilizaremos la barra espaciadora.
-				if (miPanel.getPantalla()==1) {
+				if (miPanel.getPantalla()==1) { //si viene de pantalla Juego
 					PajaroMio pj = miPanel.getPajaroMio();
 					ArrayList<Image> auxImgsDisparoAmigo;
 					int tipoDisparo;
