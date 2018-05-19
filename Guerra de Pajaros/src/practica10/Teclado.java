@@ -30,8 +30,8 @@ public class Teclado implements KeyListener {
 				miPanel.setVidas(3);
 				miPanel.sethPajaroMio(new HiloPajaroMio(miPanel));
 				miPanel.gethPajaroMio().start();
-				//FIXME:debugging. miPanel.sethPiedras(new HiloPiedras(miPanel)); // Las piedras se crean en hPiedra
-				//FIXME:debugging. miPanel.gethPiedras().start();
+				miPanel.sethPiedras(new HiloPiedras(miPanel)); // Las piedras se crean en hPiedra
+				miPanel.gethPiedras().start();
 				//Nos irán saliendo pájaros enemigos
 				miPanel.sethPajaroEnemigo(new HiloPajaroEnemigo(miPanel));
 				miPanel.gethPajaroEnemigo().start();

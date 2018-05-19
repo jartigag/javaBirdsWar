@@ -132,15 +132,10 @@ public class MiPanel extends JPanel {
 		if (pantalla==1) { // pantalla de Juego
 			barraSuperior(g);
 			dibujarPajaroMio(g);
-			//FIXME:debugging. dibujarPiedras(g);
+			dibujarPiedras(g);
 			dibujarPajaroEnemigo(g);
-			if (gethDisparoAmigo().isAlive()) {
-				dibujarDisparoAmigo(g);
-			}
-			//if (gethDisparoEnemigo().isAlive()) {
-				dibujarDisparoEnemigo(g);
-			//}
-			
+			dibujarDisparoAmigo(g);
+			dibujarDisparoEnemigo(g);
 		}
 		if (pantalla==2) { // pantalla de Game Over
 			gameover(g);
@@ -182,9 +177,9 @@ public class MiPanel extends JPanel {
 		//En el centro de la barra superior vamos a colocar una franja de color
 		//para ir indicando el estado de la vida que tenemos actualmente.
 		g.setColor(Color.RED);
-		g.fillRect(350, 20, vida100, 10); //La franja roja siempre será de 100%
+		g.fillRect(350, 20, 100*3, 10); //La franja roja siempre será de 100%
 		g.setColor(Color.BLUE);
-		g.fillRect(350, 20, (int) (vida100*0.1), 10); //Encima, una franja azul que iremos poniendo más pequeña
+		g.fillRect(350, 20, pajaroMio.getVida()*3, 10); //Encima, una franja azul que iremos poniendo más pequeña
 	}
 
 	public void dibujarPajaroMio(Graphics g){
@@ -226,26 +221,25 @@ public class MiPanel extends JPanel {
 			//En el caso de que choque con alguna de las piedras, explotará
 			if (chocan(pajaroMio,piedraActual)) {
 				vidas--;
+				pajaroMio.setVida(100);
 				pajaroMio.setImgs(auxImgsExplosion); // PajaroMio explota
-				if (vidas==0) {
+				if (vidas==-1) {
 					pantalla=2; //Game over
 				}
-				// borrar piedras:
-				if (hPiedras.getPiedras()!=null) {
-					for (int j=0; i<hPiedras.getPiedras().size(); j++) {hPiedras.getPiedras().remove(j);}
-					//TODO: evitar "Exception in thread "AWT-EventQueue-1" java.lang.IndexOutOfBoundsException: Index: 1, Size: 1"
+				//borrar piedraActual:
+				hPiedras.getPiedras().remove(hPiedras.getPiedras().indexOf(piedraActual));
 				}
-			}
 			g.drawImage(piedraActual.getImgs().get(piedraActual.getnImg()),
 					piedraActual.getCoordX(), piedraActual.getCoordY(), this);
 		}
 	}
 
 	private void dibujarDisparoAmigo(Graphics g) {
+		//TODO: puntos por matar enemigos
 		for (int i=0; i<hDisparoAmigo.getDisparosAmigo().size(); i++) {
 			DisparoAmigo disparoAmigoActual = hDisparoAmigo.getDisparosAmigo().get(i);
 
-			/*FIXME:debugging. colision con Piedra
+			// colisión con Piedra
 			for (int j=0; j<hPiedras.getPiedras().size(); j++) {
 				Piedra piedraActual = hPiedras.getPiedras().get(j);
 				if (chocan(piedraActual,disparoAmigoActual)) {
@@ -256,9 +250,9 @@ public class MiPanel extends JPanel {
 				}
 				g.drawImage(piedraActual.getImgs().get(piedraActual.getnImg()),
 						piedraActual.getCoordX(), piedraActual.getCoordY(), this);
-			}*/
+			}
 			
-			// colision con PajaroEnemigo
+			// colisión con PajaroEnemigo
 			for (int j=0; j<hPajaroEnemigo.getPajarosEnemigos().size(); j++) {
 				PajaroEnemigo pajaroEnemigoActual = hPajaroEnemigo.getPajarosEnemigos().get(j);
 
@@ -285,15 +279,14 @@ public class MiPanel extends JPanel {
 
 			if (chocan(pajaroMio,disparoEnemigoActual)) {
 				pajaroMio.setVida(pajaroMio.getVida()-disparoEnemigoActual.getVidaQuita());
-System.out.println("puntos de vida: "+pajaroMio.getVida());
 				if (pajaroMio.getVida()<=0) {
 					pajaroMio.setImgs(auxImgsExplosion); //PajaroMio explota
 					vidas--;
-System.out.println("vidas: "+vidas);
+					pajaroMio.setVida(100);
 				}
 				//borrar disparoEnemigoActual:
 				hDisparoEnemigo.getDisparosEnemigo().remove(hDisparoEnemigo.getDisparosEnemigo().indexOf(disparoEnemigoActual));
-				if (vidas==0) {
+				if (vidas==-1) {
 					pantalla=2; //Game over
 				}
 			}

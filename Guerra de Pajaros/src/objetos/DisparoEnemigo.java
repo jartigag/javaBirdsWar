@@ -18,7 +18,7 @@ public class DisparoEnemigo extends MiObjeto {
 		this.coordY = coordY;
 		this.imgs = imgs;
 		this.tipoDisparo = tipoDisparo;
-		/*TODO: Si me alcanza un disparo 1, me quita 10 puntos de vida.
+		/*Si me alcanza un disparo 1, me quita 10 puntos de vida.
 		Si me alcanza un disparo 2, me quita 20 puntos de vida.
 		Y si me alcanza un disparo 3, me quita 30 puntos de vida.*/
 		switch (tipoDisparo) {
