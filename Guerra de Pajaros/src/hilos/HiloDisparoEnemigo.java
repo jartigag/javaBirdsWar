@@ -17,8 +17,8 @@ public class HiloDisparoEnemigo extends Thread {
 	public void disparar(PajaroEnemigo pe) {
 		// los enemigos disparan desde el centro de su cuadro:
 		DisparoEnemigo nuevoDisparoEnemigo = new DisparoEnemigo(pe.getCoordX()+pe.getImgs().get(0).getWidth(null),
-					pe.getCoordY()+pe.getImgs().get(0).getHeight(null)/2,
-					mp.getAuxImgsDisparoEnemigo().get(pe.getTipoEnemigo()));
+					pe.getCoordY()+pe.getImgs().get(0).getHeight(null)/2, pe.getTipoEnemigo(),
+					mp.getAuxImgsDisparoEnemigo().get(pe.getTipoEnemigo()-1));
 		disparosEnemigo.add(nuevoDisparoEnemigo); // crear disparo nuevo
 	}
 

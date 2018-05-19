@@ -132,7 +132,7 @@ public class MiPanel extends JPanel {
 		if (pantalla==1) { // pantalla de Juego
 			barraSuperior(g);
 			dibujarPajaroMio(g);
-			dibujarPiedras(g);
+			//FIXME:debugging. dibujarPiedras(g);
 			dibujarPajaroEnemigo(g);
 			if (gethDisparoAmigo().isAlive()) {
 				dibujarDisparoAmigo(g);
@@ -192,6 +192,14 @@ public class MiPanel extends JPanel {
 				pajaroMio.getCoordX(), pajaroMio.getCoordY(), this);
 	}
 
+	private void dibujarPajaroEnemigo(Graphics g) {
+		for (int i=0; i<hPajaroEnemigo.getPajarosEnemigos().size(); i++) {
+			PajaroEnemigo pajaroEnemigoActual = hPajaroEnemigo.getPajarosEnemigos().get(i);
+			g.drawImage(pajaroEnemigoActual.getImgs().get(pajaroEnemigoActual.getnImg()),
+					pajaroEnemigoActual.getCoordX(), pajaroEnemigoActual.getCoordY(), this);
+		}	
+	}
+
 	public boolean chocan(MiObjeto objetivo, MiObjeto disparo) {
 		// dimensiones del cuadro de objetivo:
 		int inixObj = objetivo.getCoordX(); int finxObj = inixObj + objetivo.getImgs().get(0).getWidth(null);
@@ -206,17 +214,22 @@ public class MiPanel extends JPanel {
 
 		return colision;
 	}
+	
+	//TODO: se podrían refactorizar [dibujarPiedras,dibujarDisparoAmigo,dibujarDisparoEnemigo] porque tienen muchas líneas en común,
+	//		pero de momento no parece muy necesario
 
 	public void dibujarPiedras(Graphics g){
 
 		for (int i=0; i<hPiedras.getPiedras().size(); i++) {
 			Piedra piedraActual = hPiedras.getPiedras().get(i);
-			
+
+			//En el caso de que choque con alguna de las piedras, explotará
 			if (chocan(pajaroMio,piedraActual)) {
+				vidas--;
+				pajaroMio.setImgs(auxImgsExplosion); // PajaroMio explota
 				if (vidas==0) {
 					pantalla=2; //Game over
 				}
-				pajaroMio.setImgs(auxImgsExplosion); // PajaroMio explota
 				// borrar piedras:
 				if (hPiedras.getPiedras()!=null) {
 					for (int j=0; i<hPiedras.getPiedras().size(); j++) {hPiedras.getPiedras().remove(j);}
@@ -228,82 +241,61 @@ public class MiPanel extends JPanel {
 		}
 	}
 
-	private void dibujarPajaroEnemigo(Graphics g) {
-		/*TODO: Si me alcanza un disparo 1, me quita 10 puntos de vida.
-		Si me alcanza un disparo 2, me quita	20 puntos de vida.
-		Y si me alcanza un disparo 3, me quita 30 puntos de vida.*/
-		for (int i=0; i<hPajaroEnemigo.getPajarosEnemigos().size(); i++) {
-			PajaroEnemigo pajaroEnemigoActual = hPajaroEnemigo.getPajarosEnemigos().get(i);
-			g.drawImage(pajaroEnemigoActual.getImgs().get(pajaroEnemigoActual.getnImg()),
-					pajaroEnemigoActual.getCoordX(), pajaroEnemigoActual.getCoordY(), this);
-		}	
-	}
-
 	private void dibujarDisparoAmigo(Graphics g) {
-		/*TODO: Cuando yo tengo el disparo tipo 1, para matar el pájaro 1, sólo le tengo que dar una vez.
-		Pero si es el pájaro 2, le tengo que dar 2 veces.
-		Y si es el pájaro 3, le tengo que dar tres veces. Las piedras también se destruyen con 1 solo disparo.*/
-
 		for (int i=0; i<hDisparoAmigo.getDisparosAmigo().size(); i++) {
 			DisparoAmigo disparoAmigoActual = hDisparoAmigo.getDisparosAmigo().get(i);
-	
-			// He añadido la opción de eliminar piedras con disparos para hacer el juego más fácil
-			// colision con Piedra
+
+			/*FIXME:debugging. colision con Piedra
 			for (int j=0; j<hPiedras.getPiedras().size(); j++) {
 				Piedra piedraActual = hPiedras.getPiedras().get(j);
-				//En el caso de que choque con alguna de las piedras, explotará
 				if (chocan(piedraActual,disparoAmigoActual)) {
-					//borrar Piedra actual:
+					//borrar disparoAmigoActual:
+					hDisparoAmigo.getDisparosAmigo().remove(hDisparoAmigo.getDisparosAmigo().indexOf(disparoAmigoActual));
+					//borrar piedraActual:
 					hPiedras.getPiedras().remove(hPiedras.getPiedras().indexOf(piedraActual));
 				}
 				g.drawImage(piedraActual.getImgs().get(piedraActual.getnImg()),
 						piedraActual.getCoordX(), piedraActual.getCoordY(), this);
-			}
+			}*/
 			
 			// colision con PajaroEnemigo
 			for (int j=0; j<hPajaroEnemigo.getPajarosEnemigos().size(); j++) {
 				PajaroEnemigo pajaroEnemigoActual = hPajaroEnemigo.getPajarosEnemigos().get(j);
-				//En el caso de que choque con alguna de las piedras, explotará
+
 				if (chocan(pajaroEnemigoActual,disparoAmigoActual)) {
-					//borrar PajaroEnemigo actual:
-					hPajaroEnemigo.getPajarosEnemigos().remove(hPajaroEnemigo.getPajarosEnemigos().indexOf(pajaroEnemigoActual));
+					pajaroEnemigoActual.setVida(pajaroEnemigoActual.getVida()-disparoAmigoActual.getVidaQuita());
+					//borrar disparoAmigoActual:
+					hDisparoAmigo.getDisparosAmigo().remove(hDisparoAmigo.getDisparosAmigo().indexOf(disparoAmigoActual));
+					if (pajaroEnemigoActual.getVida()<=0) {
+						//borrar pajaroEnemigoActual:
+						hPajaroEnemigo.getPajarosEnemigos().remove(hPajaroEnemigo.getPajarosEnemigos().indexOf(pajaroEnemigoActual));
+					}
 				}
-				g.drawImage(pajaroEnemigoActual.getImgs().get(pajaroEnemigoActual.getnImg()),
-						pajaroEnemigoActual.getCoordX(), pajaroEnemigoActual.getCoordY(), this);
 			}
 
 			g.drawImage(disparoAmigoActual.getImgs().get(disparoAmigoActual.getnImg()),
 					disparoAmigoActual.getCoordX(), disparoAmigoActual.getCoordY(), this);
 		}
-		//TODO: Sin embargo, cuando tengo el disparo tipo 2, con 1 solo disparo me basta para matar cualquier tipo de pájaro. 
 	}
 
 	private void dibujarDisparoEnemigo(Graphics g) {
-		// dimensiones del cuadro de pajaroMio:
-		int inixPj = pajaroMio.getCoordX(); int finxPj = inixPj + pajaroMio.getImgs().get(0).getWidth(null);
-		int iniyPj = pajaroMio.getCoordY(); int finyPj = iniyPj + pajaroMio.getImgs().get(0).getHeight(null);
 
 		for (int i=0; i<hDisparoEnemigo.getDisparosEnemigo().size(); i++) {
 			DisparoEnemigo disparoEnemigoActual = hDisparoEnemigo.getDisparosEnemigo().get(i);
 
-			// dimensiones del cuadro de disparoEnemigo:
-			int inixPe = disparoEnemigoActual.getCoordX(); int finxPe = inixPe + disparoEnemigoActual.getImgs().get(0).getWidth(null);
-			//(no uso auxImgs como hacía en auxImgsPiedra porque pajaroEnemigo es de tamaño variable)
-			int iniyPe = disparoEnemigoActual.getCoordY(); int finyPe = iniyPe + disparoEnemigoActual.getImgs().get(0).getHeight(null);
-	
-			// definición de colisión:
-			boolean colision = (inixPj<finxPe && inixPe<finxPj && iniyPj<finyPe && iniyPe<finyPj);
-//System.out.println("colis. disparoEnemigo: "+colision);
-			if (colision) {
+			if (chocan(pajaroMio,disparoEnemigoActual)) {
+				pajaroMio.setVida(pajaroMio.getVida()-disparoEnemigoActual.getVidaQuita());
+System.out.println("puntos de vida: "+pajaroMio.getVida());
+				if (pajaroMio.getVida()<=0) {
+					pajaroMio.setImgs(auxImgsExplosion); //PajaroMio explota
+					vidas--;
+System.out.println("vidas: "+vidas);
+				}
+				//borrar disparoEnemigoActual:
+				hDisparoEnemigo.getDisparosEnemigo().remove(hDisparoEnemigo.getDisparosEnemigo().indexOf(disparoEnemigoActual));
 				if (vidas==0) {
 					pantalla=2; //Game over
 				}
-				pajaroMio.setImgs(auxImgsExplosion); //PajaroMio explota
-				// borrar DisparosEnemigo:
-				for (int j=0; i<hDisparoEnemigo.getDisparosEnemigo().size(); j++) {
-					hDisparoEnemigo.getDisparosEnemigo().remove(j);
-				}
-				return;
 			}
 			g.drawImage(disparoEnemigoActual.getImgs().get(disparoEnemigoActual.getnImg()),
 					disparoEnemigoActual.getCoordX(), disparoEnemigoActual.getCoordY(), this);

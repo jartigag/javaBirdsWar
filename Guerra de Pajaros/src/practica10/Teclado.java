@@ -30,8 +30,8 @@ public class Teclado implements KeyListener {
 				miPanel.setVidas(3);
 				miPanel.sethPajaroMio(new HiloPajaroMio(miPanel));
 				miPanel.gethPajaroMio().start();
-				miPanel.sethPiedras(new HiloPiedras(miPanel)); // Las piedras se crean en hPiedra
-				miPanel.gethPiedras().start();
+				//FIXME:debugging. miPanel.sethPiedras(new HiloPiedras(miPanel)); // Las piedras se crean en hPiedra
+				//FIXME:debugging. miPanel.gethPiedras().start();
 				//Nos irán saliendo pájaros enemigos
 				miPanel.sethPajaroEnemigo(new HiloPajaroEnemigo(miPanel));
 				miPanel.gethPajaroEnemigo().start();
@@ -43,14 +43,17 @@ public class Teclado implements KeyListener {
 				if (miPanel.getPantalla()==1) {
 					PajaroMio pj = miPanel.getPajaroMio();
 					ArrayList<Image> auxImgsDisparoAmigo;
+					int tipoDisparo;
 					//Cuando llego a un total de 500 puntos, a partir de ese momento, tendré el disparo de tipo "disparoamigo2" 
 					if (miPanel.getPuntuacion()<500) {
+						tipoDisparo = 1;
 						auxImgsDisparoAmigo = miPanel.getAuxImgsDisparoAmigo1();
 					} else {
+						tipoDisparo = 2;
 						auxImgsDisparoAmigo = miPanel.getAuxImgsDisparoAmigo2();
 					}
 					DisparoAmigo nuevoDisparo = new DisparoAmigo(pj.getCoordX()+pj.getImgs().get(0).getWidth(null),
-							pj.getCoordY()+pj.getImgs().get(0).getHeight(null)/2,
+							pj.getCoordY()+pj.getImgs().get(0).getHeight(null)/2, tipoDisparo,
 							auxImgsDisparoAmigo);
 					// se ha elegido disparar desde coordY+height/2 para poder disparar a cualquier altura, incluidos los bordes de pantalla
 					// crear disparo nuevo:
