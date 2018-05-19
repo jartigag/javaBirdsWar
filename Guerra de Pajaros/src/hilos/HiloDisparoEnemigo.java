@@ -61,5 +61,4 @@ public class HiloDisparoEnemigo extends Thread {
 	public void setDisparosEnemigo(ArrayList<DisparoEnemigo> disparosEnemigo) {
 		this.disparosEnemigo = disparosEnemigo;
 	}
-
 }

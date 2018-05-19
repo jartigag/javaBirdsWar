@@ -1,4 +1,5 @@
 package practica10;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -48,5 +49,4 @@ public class Puntos {
 			e.printStackTrace();
 		}
 	}
-
 }

@@ -6,8 +6,8 @@ import practica10.MiPanel;
 public class HiloPajaroMio extends Thread {
 	private MiPanel mp;
 	
-	public HiloPajaroMio(MiPanel miPanel){
-		this.mp = miPanel;
+	public HiloPajaroMio(MiPanel mp){
+		this.mp = mp;
 		mp.setPajaroMio(new PajaroMio(0, 350, mp.getAuxImgsPajaroMio())); //crear pajaroMio
 	}
 

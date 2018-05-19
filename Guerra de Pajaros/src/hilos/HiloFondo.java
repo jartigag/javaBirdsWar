@@ -5,8 +5,8 @@ import practica10.MiPanel;
 public class HiloFondo extends Thread {
 	private MiPanel mp;
 	
-	public HiloFondo(MiPanel miPanel){
-		this.mp = miPanel;
+	public HiloFondo(MiPanel mp){
+		this.mp = mp;
 	}
 
 	@Override

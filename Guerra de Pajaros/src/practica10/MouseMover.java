@@ -14,7 +14,6 @@ public class MouseMover implements MouseMotionListener {
 	@Override
 	public void mouseDragged(MouseEvent arg0) {
 		// Auto-generated method stub
-		
 	}
 
 	@Override
@@ -27,5 +26,4 @@ public class MouseMover implements MouseMotionListener {
 			miPanel.getPajaroMio().setCoordY(e.getPoint().y-altoajaroMio/2);
 		}
 	}
-
 }

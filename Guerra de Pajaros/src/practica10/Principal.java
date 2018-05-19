@@ -2,9 +2,6 @@ package practica10;
 
 public class Principal {
 
-	/**
-	 * @param args
-	 */
 	public static void main(String[] args) {
 		MiFrame mf = new MiFrame();
 		mf.setVisible(true);

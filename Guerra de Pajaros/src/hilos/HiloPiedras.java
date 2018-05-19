@@ -63,5 +63,4 @@ public class HiloPiedras extends Thread {
 	public void setPiedras(ArrayList<Piedra> piedras) {
 		this.piedras = piedras;
 	}
-
 }

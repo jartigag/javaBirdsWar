@@ -71,13 +71,10 @@ public class Teclado implements KeyListener {
 	@Override
 	public void keyReleased(KeyEvent arg0) {
 		// Auto-generated method stub
-		
 	}
 
 	@Override
 	public void keyTyped(KeyEvent arg0) {
 		// Auto-generated method stub
-		
 	}
-
 }

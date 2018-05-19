@@ -74,5 +74,4 @@ public class HiloPajaroEnemigo extends Thread {
 	public void setPajarosEnemigos(ArrayList<PajaroEnemigo> pajarosEnemigos) {
 		this.pajarosEnemigos = pajarosEnemigos;
 	}
-
 }

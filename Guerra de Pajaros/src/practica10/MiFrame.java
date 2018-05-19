@@ -20,4 +20,3 @@ public class MiFrame extends JFrame {
 		add(miPanel);
 	}
 }
-
